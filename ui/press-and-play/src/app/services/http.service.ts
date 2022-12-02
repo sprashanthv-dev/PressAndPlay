@@ -19,13 +19,16 @@ export class HttpService {
 
     if(this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(endpoint)) {
 
-      let { endPoint, headers, paramsObj } = this.buildRequestOptions(endpoint, options);
+      if (this.utilSrv.checkIfObjectKeyHasValues(options)) {
+        let { endPoint, headers, paramsObj } = this.buildRequestOptions(endpoint, options);
 
-      return this.http.get(baseUrl + endPoint, {
-        headers,
-        params: paramsObj
-      })
-
+        return this.http.get(baseUrl + endPoint, {
+          headers,
+          params: paramsObj
+        })
+      } else {
+        return this.http.get(baseUrl + endpoint);
+      }
     } else {
       console.log("Api endpoint should not be null or undefined !");
       return of(null);
