@@ -12,13 +12,8 @@ import { LoginComponent } from './components/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-<<<<<<< HEAD
-    LandingPageComponent,
     HeaderComponent,
     LoginComponent
-=======
-    HeaderComponent,
->>>>>>> 5a1efd3030c894e4ba7d7164b4cbe27e0c94da22
   ],
   imports: [
     BrowserModule,
