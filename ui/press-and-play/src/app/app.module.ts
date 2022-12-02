@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
-
+import { SportsCatalogModule } from './components/sports-catalog/sports-catalog.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { LoginComponent } from './components/login/login.component';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    SportsCatalogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
