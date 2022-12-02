@@ -9,7 +9,7 @@ import { Injectable } from "@angular/core";
 export class UtilService {
 
   checkIfObjectKeyHasValues(obj: any): boolean {
-    return Object.keys(obj).length > 0;
+    return !this.isNullOrUndefined(obj) ? Object.keys(obj).length > 0 : false;
   }
 
   isNullOrUndefined(value: any): boolean {
