@@ -5,11 +5,13 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import { HeaderComponent } from './header.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
+    HeaderComponent,
     LocSearchComponent,
     LoginComponent,
     RegisterComponent
@@ -19,11 +21,10 @@ import {MatInputModule} from '@angular/material/input';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    NgbDatepickerModule
   ],
   exports: [
-    LocSearchComponent,
-    LoginComponent,
-    RegisterComponent
+    HeaderComponent
   ]
 })
 export class HeaderModule { }
