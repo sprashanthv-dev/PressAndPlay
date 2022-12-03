@@ -8,3 +8,4 @@ export interface SportsCatalogItem {
   pricePerHour? : number;
   rating? : number;
 }
+

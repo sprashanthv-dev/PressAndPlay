@@ -55,4 +55,26 @@ export class DataService {
     return formattedCatalogItem;
   }
 
+  // parse results from /autocomplete api
+  parseAutoCompleteResponse(value: any): any[] {
+      let output = value;
+
+      let addresses = output.map((item: { properties: any; }) => item.properties);
+      let sscValues = addresses.map((item: { street: string; state: string; country: string; }) => item.street + ", " + item.state + ", " + item.country);
+      let uniqueAddr : Set<string> = new Set(sscValues);
+      let result = Array.from(uniqueAddr.values());
+      
+      let addressArr: { addr: string; }[] = [];
+
+      result.forEach((item : string) => {
+
+        let obj = {
+          addr : item
+        }
+
+        addressArr.push(obj);
+      })
+
+      return addressArr;
+  }
 }

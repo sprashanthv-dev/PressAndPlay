@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiKey: "12ca4794bebe428b8aa32a47864ba8d3"
+  apiKey: "12ca4794bebe428b8aa32a47864ba8d3",
+  geoapifyUrl: "https://api.geoapify.com/v1/geocode/"
 };
 
 /*

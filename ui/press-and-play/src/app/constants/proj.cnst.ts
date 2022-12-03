@@ -1,5 +1,6 @@
 const apiMapping = {
-  "AUTOCOMPLETE_API": "autocomplete"
+  "AUTOCOMPLETE_API": "autocomplete",
+  "REVERSE_API": "reverse"
 }
 
 const catalogItemConstants = {

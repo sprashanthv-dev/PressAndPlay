@@ -9,8 +9,8 @@
                        (input)="search(searchBox.value)"
                        [matAutocomplete]="auto">
                        <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let addr of finalAddresses" [value]="addr">
-                            {{addr | json}}
+                        <mat-option *ngFor="let address of finalAddresses" [value]="address['addr']">
+                            {{address.addr}}
                         </mat-option>
                        </mat-autocomplete>
             </mat-form-field>

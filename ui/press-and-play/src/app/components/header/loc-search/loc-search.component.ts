@@ -5,6 +5,8 @@ import {
   debounceTime, distinctUntilChanged, switchMap, tap, map, filter
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { DataService } from 'src/app/services/data.service';
+import { SearchLocation } from 'src/app/models/loc-search-model';
 
 @Component({
   selector: 'app-loc-search',
@@ -12,57 +14,29 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./loc-search.component.css']
 })
 export class LocSearchComponent implements OnInit {
-
   private search_results = new Subject<string>();
   results!: Observable<any>;
+  finalAddresses: any[] = [] ;
+  private current_location: SearchLocation;
+  private default_value: string[];
 
-  output : any;
-  finalAddresses: string[] = [] ;
-
-  private current_location: string[];
-  constructor(private http_service: HttpService) { this.current_location = [];}
+  constructor(private http_service: HttpService, private dataService : DataService) { 
+    this.current_location = {latitude: "", longitude: ""};
+    this.default_value = [];
+  }
 
   ngOnInit() {
-
     this.results = this.search_results.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
       switchMap((term: string) => term.length == 0 ? [] : this.onFocus(term))
     );
 
-    // this.results.pipe(
-    //   map((val) => val['properties']),
-    //   tap((val) => console.log(val))
-    // );
-
     this.results.subscribe(val => {
-      this.output = val;
-
-
-      let addresses = this.output.map((item: { properties: any; }) => item.properties);
-      let sscValues = addresses.map((item: { street: string; state: string; country: string; }) => item.street + ", " + item.state + ", " + item.country);
-      let uniqueAddr : Set<string> = new Set(sscValues);
-      let finalAddr : string[] = Array.from(uniqueAddr.values())
-
-      this.finalAddresses = finalAddr;
-
-      
+      this.finalAddresses = this.dataService.parseAutoCompleteResponse(val);
     })
 
-
-    /**
-     * let addresses = temp2.map(item => item.properties);
-     * let sscValues = addresses.map(item => item.street + ", " + item.state + ", " + item.country);
-     * let uniqueAddr = new Set(sscValues)
-     * let finalAddr = Array.from(uniqueAddr.values())
-     */
-
-
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      console.log("lat: " + latitude+" lon: "+longitude);
-      this.current_location = [latitude.toString(), longitude.toString()];
-    });
+    this.setCurrentLocation();
   }
 
   search(term: string): void {
@@ -72,11 +46,30 @@ export class LocSearchComponent implements OnInit {
 
   onFocus(term: string): Observable<any> {
     console.log("Focussed");
-    console.log("current location: "+this.current_location);
+    console.log("current location: " + this.current_location);
     return this.http_service.makeGetApiCall('AUTOCOMPLETE_API',
-      'https://api.geoapify.com/v1/geocode/',
+      environment.geoapifyUrl,
       { "queryParams": { 'text': term, "apiKey": environment.apiKey, "limit": 10, "type": "street"} })
       .pipe(map((value) => value['features']),
         tap((val) => console.log(val)))
+  }
+
+  setCurrentLocation(): any {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      console.log("lat: " + latitude+" lon: "+longitude);
+      this.current_location = {latitude: latitude.toString(), longitude: longitude.toString()}
+    
+      console.log(this.current_location);
+      var response = this.http_service.makeGetApiCall('REVERSE_API', 
+      environment.geoapifyUrl, 
+      {"queryParams": {"lat": this.current_location.latitude, 
+                       "lon": this.current_location.longitude, 
+                      "apiKey": environment.apiKey}});
+      response.subscribe(val => {
+        this.default_value = this.dataService.parseAutoCompleteResponse(val['features']);
+        console.log(this.default_value);
+      });
+    });
   }
 }
