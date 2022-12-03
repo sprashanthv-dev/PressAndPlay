@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
+import { SportsCatalogItem } from 'src/app/models/sports-catalog-item';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-sports-catalog-item',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SportsCatalogItemComponent implements OnInit {
 
-  constructor() { }
+  @Input() sportsCatalogItem : SportsCatalogItem = {};
+
+  catalogItemConstants = PRESS_AND_PLAY_CONSTANTS.CATALOG_ITEM_CONSTANTS;
+
+  constructor(private dataSrv : DataService) { }
 
   ngOnInit(): void {
+    this.sportsCatalogItem = this.dataSrv.formatCatalogItem(
+      this.sportsCatalogItem, this.catalogItemConstants.CATALOG_ITEM_CHAR_LIMIT);
   }
 
 }

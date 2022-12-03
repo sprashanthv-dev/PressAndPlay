@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SportsCatalogItem } from "../models/sports-catalog-item";
+import { UtilService } from "./util.service";
 
 @Injectable({
   providedIn: "root"
@@ -8,6 +9,8 @@ import { SportsCatalogItem } from "../models/sports-catalog-item";
 //* All data related manipulations (formatter) will 
 //* be handled by this service.
 export class DataService {
+
+  constructor(private utilSrv : UtilService) {}
 
   mockCatalogItems: SportsCatalogItem[] = [{
     name: "Lotee Football Stadium",
@@ -32,10 +35,24 @@ export class DataService {
     location: "505 27th Way, Boulder",
     pricePerHour: 25,
     rating: 4.3
-  }]
+  },
+]
 
   getMockCatalogItems() : SportsCatalogItem[] {
     return this.mockCatalogItems;
+  }
+
+  formatCatalogItem(catalogItem : SportsCatalogItem, characterLimit : number) {
+
+    let formattedCatalogItem = { ...catalogItem };
+
+    formattedCatalogItem.altName = this.utilSrv.trimStringLength(
+      formattedCatalogItem.name, characterLimit);
+
+    formattedCatalogItem.altLocation = this.utilSrv.trimStringLength(
+        formattedCatalogItem.location, characterLimit);
+
+    return formattedCatalogItem;
   }
 
 }

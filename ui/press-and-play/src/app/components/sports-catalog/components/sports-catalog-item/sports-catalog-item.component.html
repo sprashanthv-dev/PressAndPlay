@@ -1,1 +1,19 @@
-<p>sports-catalog-item works!</p>
+<div class="card catalog-height">
+  <div class="d-flex catalog-info">
+    <!-- Replace with sport court image from AWS S3 Bucket -->
+    <img src="../../../assets/footy.jpg" alt="Catalog thumbnail">
+    <div class="p-3 item-details">
+      <p class="m-0 text-center" data-toggle="tooltip" data-placement="top" title="{{ sportsCatalogItem.name }}">
+        <strong>{{ sportsCatalogItem?.altName || "-" }}</strong>
+      </p>
+      <p class="m-0 text-center" data-toggle="tooltip" data-placement="top" title="{{ sportsCatalogItem.location }}">
+        {{ sportsCatalogItem ?.altLocation || "-" }}
+      </p>
+      <div class="d-flex justify-content-between catalog-attributes">
+        <span class="badge text-bg-success">{{ sportsCatalogItem ?.rating }} &#9733;</span>
+        <span class="badge text-bg-warning">{{ sportsCatalogItem ?.distance }} mi</span>
+        <span class="badge text-bg-info">Slots: {{ sportsCatalogItem ?.availableSlots || "-" }}</span>
+      </div>
+    </div>
+  </div>
+</div>

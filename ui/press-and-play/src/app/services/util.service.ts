@@ -30,4 +30,12 @@ export class UtilService {
       && !this.isStringEmpty(value);
   }
 
+  trimStringLength(input: string | undefined, characterLimit : number) {
+
+    if (this.isStringUndefined(input)) {
+      return input;
+    } else  {
+      return `${input?.slice(0, characterLimit + 1)} ...`;
+    }
+  }
 }

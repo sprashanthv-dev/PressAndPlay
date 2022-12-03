@@ -3,76 +3,9 @@
   <p class="text-center my-2 title">Sporting Centers around Pearl Street</p>
   <div class="card">
     <div class="card-body d-flex flex-wrap">
-      <div class="card catalog-height">
-        <div class="d-flex catalog-info">
-          <img src="../../../assets/footy.jpg" alt="Catalog thumbnail">
-          <div class="p-3 item-details">
-            <p class="text-center"><strong>Lotee Football Stadium</strong></p>
-            <p>Istanbul, Turkey</p>
-            <div class="d-flex justify-content-between">
-              <span class="badge text-bg-success">4.9 &#9733;</span>
-              <span class="badge text-bg-warning">1.6 mi</span>
-              <span class="badge text-bg-info">Slots: 10</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card catalog-height">
-        <div class="d-flex catalog-info">
-          <img src="../../../assets/footy.jpg" alt="Catalog thumbnail">
-          <div class="p-3 item-details">
-            <p class="text-center"><strong>Lotee Football Stadium</strong></p>
-            <p>Istanbul, Turkey</p>
-            <div class="d-flex justify-content-between">
-              <span class="badge text-bg-success">4.9 &#9733;</span>
-              <span class="badge text-bg-warning">1.6 mi</span>
-              <span class="badge text-bg-info">Slots: 10</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card catalog-height">
-        <div class="d-flex catalog-info">
-          <img src="../../../assets/footy.jpg" alt="Catalog thumbnail">
-          <div class="p-3 item-details">
-            <p class="text-center"><strong>Lotee Football Stadium</strong></p>
-            <p>Istanbul, Turkey</p>
-            <div class="d-flex justify-content-between">
-              <span class="badge text-bg-success">4.9 &#9733;</span>
-              <span class="badge text-bg-warning">1.6 mi</span>
-              <span class="badge text-bg-info">Slots: 10</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card catalog-height">
-        <div class="d-flex catalog-info">
-          <img src="../../../assets/footy.jpg" alt="Catalog thumbnail">
-          <div class="p-3 item-details">
-            <p class="text-center"><strong>Lotee Football Stadium</strong></p>
-            <p>Istanbul, Turkey</p>
-            <div class="d-flex justify-content-between">
-              <span class="badge text-bg-success">4.9 &#9733;</span>
-              <span class="badge text-bg-warning">1.6 mi</span>
-              <span class="badge text-bg-info">Slots: 10</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card catalog-height">
-        <div class="d-flex catalog-info">
-          <img src="../../../assets/footy.jpg" alt="Catalog thumbnail">
-          <div class="p-3 item-details">
-            <p class="text-center"><strong>Lotee Football Stadium</strong></p>
-            <p>Istanbul, Turkey</p>
-            <div class="d-flex justify-content-between">
-              <span class="badge text-bg-success">4.9 &#9733;</span>
-              <span class="badge text-bg-warning">1.6 mi</span>
-              <span class="badge text-bg-info">Slots: 10</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ng-container *ngFor="let catalogItem of sportsCatalogList">
+        <app-sports-catalog-item [sportsCatalogItem]="catalogItem"></app-sports-catalog-item>
+      </ng-container>
     </div>
   </div>
 </section>
