@@ -70,7 +70,6 @@ export class HttpService {
 
     let { API_MAPPING } = PRESS_AND_PLAY_CONSTANTS;
     let endPoint = API_MAPPING[endpoint as keyof typeof API_MAPPING];
-
     if(this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(endPoint)) {
       return endPoint;
     } else {
@@ -94,6 +93,7 @@ export class HttpService {
 
     values.forEach((value: any) => {
        apiEndPoint += `/${value}`
+       console.log(value);
     })
 
     return apiEndPoint;

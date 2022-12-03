@@ -1,8 +1,29 @@
-<nav class="navbar navbar-dark" style="background-color: #F3EFE0">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="../../../assets/logo.png" alt="" width="200" height="64">
-      </a>
+<div class="d-flex flex-container">
+    <div class="p-2 flex-fill bd-highlight">
+        <img src="../../../assets/logo.png" alt="" width="200px" height="60px">
     </div>
-</nav>
-
+    <div class="p-2 w-50 flex-fill input-group">
+        <form class="search-form">
+            <mat-form-field class="search-full-width" appearance="outline">
+                <input type="text"
+                       placeholder="Select Location"
+                       matInput
+                       #searchBox
+                       (input)="search(searchBox.value)"
+                       [matAutocomplete]="auto">
+                       <mat-autocomplete #auto="matAutocomplete">
+                         <mat-option *ngFor="let option of results | async" [value]="option.properties.street + ', ' + option.properties.state + ' ' + option.properties.postcode + ', ' + option.properties.country">
+                            {{option.properties.street}}, {{option.properties.state}} {{option.properties.postcode}}, {{option.properties.country}}
+                            </mat-option>
+                       </mat-autocomplete>
+              </mat-form-field>
+        </form>
+    </div>
+    
+    <div class="p-2 flex-fill">
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-success">Sign In</button>
+            <button type="button" class="btn btn-outline-success">Login</button>
+        </div>
+    </div>
+  </div>

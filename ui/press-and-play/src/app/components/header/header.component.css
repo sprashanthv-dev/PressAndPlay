@@ -1,0 +1,24 @@
+.flex-container {
+    background-color:  #F3EFE0;
+    align-content: center;
+}
+.btn-group {
+    float: right;
+    width: 150px;
+    align-items: flex-end;
+}
+
+.search-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+.search-full-width {
+    width: 100%;
+}
+
+::ng-deep.mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: green !important;
+   }
