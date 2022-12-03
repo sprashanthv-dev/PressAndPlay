@@ -22,6 +22,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    ReactiveFormsModule,
     NgbDatepickerModule
   ],
   exports: [

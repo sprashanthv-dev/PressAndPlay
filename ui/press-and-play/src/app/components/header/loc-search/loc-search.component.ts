@@ -7,6 +7,7 @@ import {
 import { environment } from 'src/environments/environment';
 import { DataService } from 'src/app/services/data.service';
 import { SearchLocation } from 'src/app/models/loc-search-model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-loc-search',
@@ -14,15 +15,21 @@ import { SearchLocation } from 'src/app/models/loc-search-model';
   styleUrls: ['./loc-search.component.css']
 })
 export class LocSearchComponent implements OnInit {
-  private search_results = new Subject<string>();
-  results!: Observable<any>;
-  finalAddresses: any[] = [] ;
-  private current_location: SearchLocation;
-  private default_value: string[];
 
-  constructor(private http_service: HttpService, private dataService : DataService) { 
-    this.current_location = {latitude: "", longitude: ""};
-    this.default_value = [];
+  search_results = new Subject<string>();
+
+  searchForm = new FormGroup({
+    currentAddress : new FormControl()
+  })
+
+  results!: Observable<any>;
+  finalAddresses: any[] = [];
+  current_location: SearchLocation;
+
+  constructor(
+    private http_service: HttpService,
+    private dataService: DataService) {
+    this.current_location = { latitude: "", longitude: "" };
   }
 
   ngOnInit() {
@@ -35,13 +42,15 @@ export class LocSearchComponent implements OnInit {
     this.results.subscribe(val => {
       this.finalAddresses = this.dataService.parseAutoCompleteResponse(val);
     })
-
-    this.setCurrentLocation();
   }
 
-  search(term: string): void {
-    this.search_results.next(term);
-    console.log("search: " + term);
+  search(): void {
+
+    let searchTerm = this.searchForm.get('currentAddress')?.value;
+    console.log(searchTerm); 
+
+    this.search_results.next(searchTerm);
+    // console.log("search: " + term);
   }
 
   onFocus(term: string): Observable<any> {
@@ -49,7 +58,7 @@ export class LocSearchComponent implements OnInit {
     console.log("current location: " + this.current_location);
     return this.http_service.makeGetApiCall('AUTOCOMPLETE_API',
       environment.geoapifyUrl,
-      { "queryParams": { 'text': term, "apiKey": environment.apiKey, "limit": 10, "type": "street"} })
+      { "queryParams": { 'text': term, "apiKey": environment.apiKey, "limit": 10, "type": "street" } })
       .pipe(map((value) => value['features']),
         tap((val) => console.log(val)))
   }
@@ -57,19 +66,27 @@ export class LocSearchComponent implements OnInit {
   setCurrentLocation(): any {
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
-      console.log("lat: " + latitude+" lon: "+longitude);
-      this.current_location = {latitude: latitude.toString(), longitude: longitude.toString()}
-    
+      console.log("lat: " + latitude + " lon: " + longitude);
+      this.current_location = { latitude: latitude.toString(), longitude: longitude.toString() }
+
       console.log(this.current_location);
-      var response = this.http_service.makeGetApiCall('REVERSE_API', 
-      environment.geoapifyUrl, 
-      {"queryParams": {"lat": this.current_location.latitude, 
-                       "lon": this.current_location.longitude, 
-                      "apiKey": environment.apiKey}});
+      var response = this.http_service.makeGetApiCall('REVERSE_API',
+        environment.geoapifyUrl,
+        {
+          "queryParams": {
+            "lat": this.current_location.latitude,
+            "lon": this.current_location.longitude,
+            "apiKey": environment.apiKey
+          }
+        });
       response.subscribe(val => {
-        this.default_value = this.dataService.parseAutoCompleteResponse(val['features']);
-        console.log(this.default_value);
+        this.finalAddresses = this.dataService.parseAutoCompleteResponse(val['features']);
+        this.searchForm.setValue({currentAddress : this.finalAddresses[0].addr});
       });
     });
+  }
+
+  handleCurrentLocation() {
+    this.setCurrentLocation();
   }
 }

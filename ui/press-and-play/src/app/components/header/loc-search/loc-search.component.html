@@ -1,22 +1,21 @@
-<div class="d-flex">
-    <div class="p-2 w-50 flex-fill input-group">
-        <form class="search-form">
+<div class="d-flex flex-fill">
+    <div class="p-2 w-50 input-group">
+        <form class="search-form" [formGroup]="searchForm">
             <mat-form-field class="search-full-width" appearance="outline">
-                <input type="text"
-                       placeholder="Select Location"
-                       matInput
-                       #searchBox
-                       (input)="search(searchBox.value)"
-                       [matAutocomplete]="auto">
-                       <mat-autocomplete #auto="matAutocomplete">
+                <input type="text" placeholder="Select Location" matInput [matAutocomplete]="auto"
+                    formControlName="currentAddress" (input)="search()">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <ng-container *ngIf="finalAddresses.length > 0">
                         <mat-option *ngFor="let address of finalAddresses" [value]="address['addr']">
                             {{address.addr}}
                         </mat-option>
-                       </mat-autocomplete>
+                    </ng-container>
+                </mat-autocomplete>
             </mat-form-field>
         </form>
         <div class="p-2">
-            <button type="button" class="btn btn-outline-danger">Use Current Location</button>
+            <button type="button" class="btn btn-outline-danger" (click)="handleCurrentLocation()">Use Current
+                Location</button>
         </div>
     </div>
 </div>
