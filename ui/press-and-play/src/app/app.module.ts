@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LocSearchComponent } from './components/header/loc-search/loc-search.component';
 import { LoginComponent } from './components/header/login/login.component';
+import { SportsCatalogModule } from './components/sports-catalog/sports-catalog.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -32,8 +33,8 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    FormsModule
-
+    FormsModule,
+    SportsCatalogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
