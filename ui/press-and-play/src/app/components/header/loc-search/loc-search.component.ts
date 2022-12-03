@@ -82,11 +82,17 @@ export class LocSearchComponent implements OnInit {
       response.subscribe(val => {
         this.finalAddresses = this.dataService.parseAutoCompleteResponse(val['features']);
         this.searchForm.setValue({currentAddress : this.finalAddresses[0].addr});
+        this.handleLocationSelection();
       });
     });
   }
 
   handleCurrentLocation() {
     this.setCurrentLocation();
+  }
+
+  handleLocationSelection() {
+    console.log("Inside location selected");
+    console.log(this.searchForm.get('currentAddress')?.value);
   }
 }
