@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     this.results = this.search_results.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
-      switchMap((term: string) => term.length == 0 ? [] : this.onFocus(term))
+      switchMap((term: string) => term.length < 2 ? [] : this.onFocus(term))
     );
 
     navigator.geolocation.getCurrentPosition(position => {
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
       this.current_location = [latitude.toString(), longitude.toString()];
     });
   }
-  
+
   search(term: string): void {
     this.search_results.next(term);
     console.log(term);
