@@ -15,15 +15,48 @@ export class LocSearchComponent implements OnInit {
 
   private search_results = new Subject<string>();
   results!: Observable<any>;
+
+  output : any;
+  finalAddresses: string[] = [] ;
+
   private current_location: string[];
   constructor(private http_service: HttpService) { this.current_location = [];}
 
   ngOnInit() {
+
     this.results = this.search_results.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
       switchMap((term: string) => term.length == 0 ? [] : this.onFocus(term))
     );
+
+    // this.results.pipe(
+    //   map((val) => val['properties']),
+    //   tap((val) => console.log(val))
+    // );
+
+    this.results.subscribe(val => {
+      this.output = val;
+
+
+      let addresses = this.output.map((item: { properties: any; }) => item.properties);
+      let sscValues = addresses.map((item: { street: string; state: string; country: string; }) => item.street + ", " + item.state + ", " + item.country);
+      let uniqueAddr : Set<string> = new Set(sscValues);
+      let finalAddr : string[] = Array.from(uniqueAddr.values())
+
+      this.finalAddresses = finalAddr;
+
+      
+    })
+
+
+    /**
+     * let addresses = temp2.map(item => item.properties);
+     * let sscValues = addresses.map(item => item.street + ", " + item.state + ", " + item.country);
+     * let uniqueAddr = new Set(sscValues)
+     * let finalAddr = Array.from(uniqueAddr.values())
+     */
+
 
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
