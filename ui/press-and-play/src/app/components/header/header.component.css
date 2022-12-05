@@ -1,24 +1,46 @@
-.flex-container {
+.header-container {
     background-color:  #F3EFE0;
-    align-content: center;
 }
+
+.logo-search-container {
+    margin-top: 10px;
+}
+
 .btn-group {
-    float: right;
-    width: 150px;
-    align-items: flex-end;
+    margin-top: 10px;
 }
 
-.search-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-.search-full-width {
-    width: 100%;
+@media screen and (max-width : 1400px) {
+
+    .logo-search-container img {
+        display: none;
+    }
+
+    .logo-search-container .loc-search {
+        width: 90%;
+        margin-left: 10px;
+    }
 }
 
-::ng-deep.mat-form-field-ripple {
-    /*change color of underline when focused*/
-    background-color: green !important;
-   }
+@media screen and (max-width : 812px) {
+    
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-container {
+        width: 100%;
+    }
+
+    .btn-group {
+        margin: 0px;
+        width: 100%;
+    }
+
+    .btn-group button {
+        margin: 0px 10px;
+    }
+
+    
+}
