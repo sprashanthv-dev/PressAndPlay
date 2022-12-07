@@ -7,7 +7,16 @@ const catalogItemConstants = {
   CATALOG_ITEM_CHAR_LIMIT : 15
 }
 
+const userType = {
+  CUSTOMER : 'customer',
+  MANAGER : 'manager'
+}
+
+const country = "United States";
+
 export const PRESS_AND_PLAY_CONSTANTS = {
   API_MAPPING : apiMapping,
-  CATALOG_ITEM_CONSTANTS : catalogItemConstants
+  CATALOG_ITEM_CONSTANTS : catalogItemConstants,
+  USERTYPE : userType,
+  COUNTRY : country
 }

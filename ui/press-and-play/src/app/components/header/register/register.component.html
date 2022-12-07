@@ -3,115 +3,201 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
 </div>
 <div class="modal-body">
-  <form>
-
+  <form #userRegisterForm="ngForm" (ngSubmit)="handleRegistration(registerForm, userRegisterForm)">
 
     <!-- Email and Password -->
     <div class="row">
-      <div class="col-6 mb-3">
+      <div class="col-md-6 col-xs-12 mb-3">
         <label for="email" class="form-label">Email address</label>
         <span class="text-danger">*</span>
-        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required
+          [(ngModel)]="registerForm.email" #email="ngModel" [email]="true">
+
+        <!-- Validation - Email -->
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+          <span *ngIf="email.errors?.['required']" class="text-danger">
+            *Email is required.
+          </span>
+          <span *ngIf="!email.errors?.['required']" class="text-danger">
+            *Please enter a valid email.
+          </span>
+        </div>
+
       </div>
-      <div class="col-6 mb-3">
+      <div class="col-md-6 col-xs-12 mb-3">
         <label for="password" class="form-label">Password</label>
         <span class="text-danger">*</span>
-        <input type="password" class="form-control" id="password" placeholder="Enter password">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required
+          [(ngModel)]="registerForm.password" #password="ngModel">
+
+        <!-- Validation - Password -->
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
+          <span *ngIf="password.errors?.['required']" class="text-danger">
+            *Password is required.
+          </span>
+        </div>
+
       </div>
     </div>
 
     <!-- First Name, Last Name -->
     <div class="row">
-      <div class="col-6 mb-3">
+      <div class="col-md-6 col-xs-12 mb-3">
         <label for="firstName" class="form-label">First Name</label>
         <span class="text-danger">*</span>
-        <input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
+
+        <input type="text" class="form-control" id="firstName" 
+        name="firstName" [(ngModel)]="registerForm.firstName" name="firstName" #firstName="ngModel" placeholder="Enter First Name" required>
+
+        <!-- Validation - First Name -->
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="error-message">
+          <span *ngIf="firstName.errors?.['required']" class="text-danger">
+            *First name is required.
+          </span>
+        </div>
+
       </div>
-      <div class="col-6 mb-3">
+      <div class="col-md-6 col-xs-12 mb-3">
         <label for="lastName" class="form-label">Last Name</label>
         <span class="text-danger">*</span>
-        <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
+        <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="registerForm.lastName" #lastName="ngModel" placeholder="Enter Last Name" required>
+
+          <!-- Validation - Last Name -->
+          <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="error-message">
+            <span *ngIf="lastName.errors?.['required']" class="text-danger">
+              *Last name is required.
+            </span>
+          </div>
       </div>
     </div>
 
     <!-- Address -->
     <div class="row">
       <label for="line1" class="form-label">Address</label>
-      <div class="col-6 mb-3">
-        <input type="text" class="form-control" id="line1" placeholder="Address Line 1">
+      <div class="col-lg-6 col-xs-12 mb-3">
+        <input type="text" class="form-control" name="line1" [(ngModel)]="registerForm.address!.line1" id="line1" placeholder="Address Line 1">
       </div>
-      <div class="col-6">
-        <input type="text" class="form-control" placeholder="Address Line 2">
+      <div class="col-lg-6 col-xs-12 mb-3">
+        <input type="text" class="form-control" name="line2" [(ngModel)]="registerForm.address!.line2" placeholder="Address Line 2">
       </div>
     </div>
 
     <!-- City, State, Country -->
     <div class="row">
-      <div class="col-3 mb-3">
+      <div class="col-lg-3 col-md-6 mb-3">
         <label for="country" class="form-label">Country</label>
         <input type="text" class="form-control" id="Country" value="United States" disabled>
       </div>
-      <div class="col-3">
+      <div class="col-lg-3 col-md-6 mb-3">
         <label for="state" class="form-label">State</label>
-        <input type="text" class="form-control" id="state" placeholder="Enter state">
+        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.state" name="state" id="state" placeholder="Enter state">
       </div>
-      <div class="col-3 mb-3">
+      <div class="col-lg-3 col-md-6 mb-3">
         <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" id="city" placeholder="Enter city">
+        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.city" name="city" id="city" placeholder="Enter city">
       </div>
-      <div class="col-3">
+      <div class="col-lg-3 col-md-6 mb-3">
         <label for="pincode" class="form-label">Pincode</label>
-        <input type="text" class="form-control" id="pincode" placeholder="Enter pincode">
+        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.pincode" name="pincode" id="pincode" placeholder="Enter pincode">
       </div>
     </div>
 
     <!-- Phone number and DOB -->
     <div class="row">
-      <div class="col-6 mb-3">
+      <div class="col-md-6 col-xs-12 mb-3">
         <label for="phone" class="form-label">Phone Number</label>
         <span class="text-danger">*</span>
-        <input type="text" class="form-control" id="phone" placeholder="123-456-7890">
+        <input type="text" class="form-control" [(ngModel)]="registerForm.phoneNumber" #phone="ngModel" id="phone" name="phoneNumber" placeholder="123-456-7890" required>
+
+         <!-- Validation - Phone Number -->
+         <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error-message">
+          <span *ngIf="phone.errors?.['required']" class="text-danger">
+            *Phone Number is required.
+          </span>
+        </div>
+
       </div>
-      <div class="col-6">
+      <div class="col-md-6 col-xs-12 mb-3">
         <label for="dateOfBirth" class="form-label">Date of birth</label>
         <span class="text-danger">*</span>
         <div class="input-group">
           <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
-            #dp="ngbDatepicker" />
-          <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button>
+            #dp="ngbDatepicker" (click)="dp.toggle()" required [(ngModel)]="registerForm.dateOfBirth" #dob="ngModel"/>
+          <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
+
+          <!-- Validation - Date of Birth -->
+         <div *ngIf="dob.invalid && (dob.dirty || dob.touched)" class="error-message">
+          <span *ngIf="dob.errors?.['required']" class="text-danger">
+            *Date of Birth is required.
+          </span>
+        </div>
+
         </div>
       </div>
     </div>
 
-    <!-- User Type -->
+    <!-- User Type and Gender -->
     <div class="row">
-      <label class="form-label">User Type 
+      <div class="col-md-6 col-xs-12 mb-3">
+        <label class="form-label">User Type
           <span class="text-danger">*</span>
-      </label>
-        <div class="col-12 mb-3">
+        </label>
+        <div class="user-type-container">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="normal" name="userType" value="normal">
-            <label for="normal" class="form-check-label">Normal</label>
+            <input class="form-check-input" type="radio" id="customer" name="userType" value="customer"
+              [(ngModel)]="registerForm.userType" (change)="handleUserTypeSelection()" required>
+            <label for="customer" class="form-check-label">Customer</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="manager" name="userType" value="manager">
+            <input class="form-check-input" type="radio" id="manager" name="userType" value="manager"
+              [(ngModel)]="registerForm.userType" (change)="handleUserTypeSelection()">
             <label for="manager" class="form-check-label">Manager</label>
           </div>
         </div>
-       
-
-        <!-- Verification Document -->
-        <div class="row">
-          <div class="col-12">
-            <label for="document" class="form-label">Upload Verification Document</label>
-            <span class="text-danger">*</span>
-            <input class="form-control" type="file" id="document">
+      </div>
+      <div class="col-md-6 col-xs-12 mb-3">
+        <label class="form-label">Gender
+          <span class="text-danger">*</span>
+        </label>
+        <div class="gender-container">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="male" name="gender" value="male"  [(ngModel)]="registerForm.gender" required>
+            <label for="male" class="form-check-label">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="female" name="gender" value="female" [(ngModel)]="registerForm.gender">
+            <label for="female" class="form-check-label">Female</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="others" name="gender" value="others" [(ngModel)]="registerForm.gender">
+            <label for="others" class="form-check-label">Others</label>
           </div>
         </div>
+      </div>
+    </div>
 
+
+    <!-- Verification Document -->
+    <div class="row" *ngIf="isUserManager">
+      <div class="col-12">
+        <label for="document" class="form-label">Upload Verification Document</label>
+        <span class="text-danger">*</span>
+        <input class="form-control" type="file" id="document" name="document" required  
+        [(ngModel)]="registerForm.verificationDocument"
+        #document="ngModel">
+
+        <!-- Validation - Verification Document -->
+        <div *ngIf="document.invalid && (document.dirty || document.touched)" class="error-message">
+          <span *ngIf="document.errors?.['required']" class="text-danger">
+            *Document upload is required.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <div class="col-12 d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" [disabled]="userRegisterForm.invalid">Register</button>
     </div>
   </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="handleRegistration()">Register</button>
 </div>

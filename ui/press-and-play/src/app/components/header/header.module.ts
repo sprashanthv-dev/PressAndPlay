@@ -19,6 +19,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
