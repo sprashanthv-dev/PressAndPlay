@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { RegisterForm } from "../models/register-form";
 import { SportsCatalogItem } from "../models/sports-catalog-item";
 import { UtilService } from "./util.service";
 
@@ -76,5 +77,43 @@ export class DataService {
       })
 
       return addressArr;
+  }
+
+  buildRegisterFormPostData(registerFormInput: RegisterForm) {
+
+    let { firstName,
+      lastName,
+      dateOfBirth,
+      gender,
+      userType,
+      phoneNumber,
+      email,
+      password,
+      address } = registerFormInput;
+
+    let { year, month, day } = dateOfBirth;
+
+    let { line1, line2, country, state, city, pincode } = address;
+
+    let userAddress = {
+      address_line1 : line1,
+      address_line2 : line2,
+      city,
+      state,
+      country, 
+      pincode
+    }
+
+    return {
+      first_name : firstName,
+      last_name: lastName,
+      date_of_birth : `${year}${month}${day}`,
+      address : userAddress,
+      gender : parseInt(gender),
+      role : parseInt(userType),
+      phone : phoneNumber,
+      email,
+      password
+    }
   }
 }

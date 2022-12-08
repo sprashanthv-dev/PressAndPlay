@@ -8,8 +8,8 @@ const catalogItemConstants = {
 }
 
 const userType = {
-  CUSTOMER : 'customer',
-  MANAGER : 'manager'
+  CUSTOMER : '1',
+  MANAGER : '2'
 }
 
 const country = "United States";

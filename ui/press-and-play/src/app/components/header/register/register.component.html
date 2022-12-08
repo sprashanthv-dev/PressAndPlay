@@ -144,12 +144,12 @@
         </label>
         <div class="user-type-container">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="customer" name="userType" value="customer"
+            <input class="form-check-input" type="radio" id="customer" name="userType" value="1"
               [(ngModel)]="registerForm.userType" (change)="handleUserTypeSelection()" required>
             <label for="customer" class="form-check-label">Customer</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="manager" name="userType" value="manager"
+            <input class="form-check-input" type="radio" id="manager" name="userType" value="2"
               [(ngModel)]="registerForm.userType" (change)="handleUserTypeSelection()">
             <label for="manager" class="form-check-label">Manager</label>
           </div>
@@ -161,15 +161,15 @@
         </label>
         <div class="gender-container">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="male" name="gender" value="male"  [(ngModel)]="registerForm.gender" required>
+            <input class="form-check-input" type="radio" id="male" name="gender" value="1"  [(ngModel)]="registerForm.gender" required>
             <label for="male" class="form-check-label">Male</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="female" name="gender" value="female" [(ngModel)]="registerForm.gender">
+            <input class="form-check-input" type="radio" id="female" name="gender" value="0" [(ngModel)]="registerForm.gender">
             <label for="female" class="form-check-label">Female</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="others" name="gender" value="others" [(ngModel)]="registerForm.gender">
+            <input class="form-check-input" type="radio" id="others" name="gender" value="2" [(ngModel)]="registerForm.gender">
             <label for="others" class="form-check-label">Others</label>
           </div>
         </div>
@@ -182,22 +182,15 @@
       <div class="col-12">
         <label for="document" class="form-label">Upload Verification Document</label>
         <span class="text-danger">*</span>
-        <input class="form-control" type="file" id="document" name="document" required  
-        [(ngModel)]="registerForm.verificationDocument"
-        #document="ngModel">
-
-        <!-- Validation - Verification Document -->
-        <div *ngIf="document.invalid && (document.dirty || document.touched)" class="error-message">
-          <span *ngIf="document.errors?.['required']" class="text-danger">
-            *Document upload is required.
-          </span>
-        </div>
+        <input class="form-control" type="file" id="document" name="document"
+        (change)="handleFileUpload($event.target)" required>
       </div>
     </div>
 
     <!-- Submit button -->
     <div class="col-12 d-flex justify-content-end">
-      <button type="button" class="btn btn-primary" [disabled]="userRegisterForm.invalid">Register</button>
+      <!-- [disabled]="userRegisterForm.invalid" -->
+      <button type="submit" class="btn btn-primary" >Register</button>
     </div>
   </form>
 </div>

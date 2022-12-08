@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
 import { Address } from 'src/app/models/address';
 import { RegisterForm } from 'src/app/models/register-form';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-register',
@@ -12,9 +13,9 @@ import { RegisterForm } from 'src/app/models/register-form';
 })
 export class RegisterComponent implements OnInit {
 
-  //TODO : 1) Form Validation (Required) 2) Request Body Creation
-
-  constructor(private modalRef : NgbActiveModal) { }
+  constructor(
+    private modalRef : NgbActiveModal,
+    private dataSrv : DataService) { }
 
   userTypeConstants : any;
 
@@ -34,7 +35,7 @@ export class RegisterComponent implements OnInit {
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    dateOfBirth: '',
+    dateOfBirth: new NgbDate(0, 0, 0),
     userType: '',
     address : this.address,
     gender: ''
@@ -42,6 +43,7 @@ export class RegisterComponent implements OnInit {
 
   //* State Variables
   isUserManager : boolean = false;
+  verificationDocument : File | null = null;
 
   ngOnInit(): void {
     let { USERTYPE, COUNTRY } = PRESS_AND_PLAY_CONSTANTS;
@@ -54,11 +56,21 @@ export class RegisterComponent implements OnInit {
 
   handleRegistration(
     registerForm: RegisterForm, 
-    formState : NgForm) { }
+    formState : NgForm) {
+
+    console.log(registerForm);
+
+    console.log(this.dataSrv.buildRegisterFormPostData(registerForm));
+    console.log("------------------");
+  }
 
   handleUserTypeSelection() {
     this.isUserManager = this.registerForm.userType === this.userTypeConstants.CUSTOMER 
       ? false : true;
+  }
+
+  handleFileUpload(uploadItem : any) {
+    console.log(uploadItem.files);
   }
 
   closeModal() {

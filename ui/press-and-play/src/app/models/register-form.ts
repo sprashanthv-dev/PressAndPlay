@@ -1,3 +1,4 @@
+import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 import { Address } from "./address";
 
 
@@ -6,10 +7,9 @@ export interface RegisterForm {
   password : string;
   firstName : string;
   lastName : string;
-  address? : Address;
+  address : Address;
   phoneNumber : string;
-  dateOfBirth : string;
+  dateOfBirth : NgbDate;
   userType : string;
   gender : string;
-  verificationDocument? : any
 }
