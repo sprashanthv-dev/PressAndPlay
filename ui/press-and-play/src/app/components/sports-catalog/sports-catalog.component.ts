@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SportsCatalogItem } from 'src/app/models/sports-catalog-item';
 import { DataService } from 'src/app/services/data.service';
 
@@ -9,7 +10,9 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class SportsCatalogComponent implements OnInit {
 
-  constructor(private dataService : DataService) { }
+  constructor(
+    private dataService : DataService,
+    private router : Router) { }
 
   sportsCatalogList : SportsCatalogItem[] = [];
 
@@ -21,6 +24,10 @@ export class SportsCatalogComponent implements OnInit {
   //TODO : Integrate get catalog items REST API
   fetchAllCatalogItems(location : string) {
     this.sportsCatalogList = this.dataService.getMockCatalogItems();
+  }
+
+  handleCatalogSelection(catalogId : any) {
+    this.router.navigate(['', 'catalog', catalogId]);
   }
 
 }

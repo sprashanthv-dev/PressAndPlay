@@ -14,6 +14,7 @@ export class DataService {
   constructor(private utilSrv : UtilService) {}
 
   mockCatalogItems: SportsCatalogItem[] = [{
+    id : "1",
     name: "Lotee Football Stadium",
     distance: 16,
     availableSlots: 10,
@@ -22,6 +23,7 @@ export class DataService {
     rating: 4.5
   },
   {
+    id : "2",
     name: "Rush International Stadium",
     distance: 25,
     availableSlots: 15,
@@ -30,6 +32,7 @@ export class DataService {
     rating: 3.8
   }, 
   {
+    id : "3",
     name: "Javaa Stadium",
     distance: 10,
     availableSlots: 5,
