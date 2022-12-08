@@ -1,0 +1,7 @@
+.error-message {
+    margin: 4px auto;
+  }
+.btn.btn-primary[disabled] {
+    background-color: grey;
+    border-color: grey;
+}

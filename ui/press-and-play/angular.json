@@ -106,5 +106,8 @@
       }
     }
   },
-  "defaultProject": "press-and-play"
+  "defaultProject": "press-and-play",
+  "cli": {
+    "analytics": "4e0a821f-fbc6-48e2-a778-554761f5c420"
+  }
 }

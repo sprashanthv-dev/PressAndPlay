@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 @Component({
@@ -14,6 +15,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  handleLogin() {
+    this.modal.open(LoginComponent, {size: 'md'});
   }
 
   handleSignUp() {
