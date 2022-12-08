@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { RegisterForm } from "../models/register-form";
 import { SportsCatalogItem } from "../models/sports-catalog-item";
 import { UtilService } from "./util.service";
 
@@ -13,6 +14,7 @@ export class DataService {
   constructor(private utilSrv : UtilService) {}
 
   mockCatalogItems: SportsCatalogItem[] = [{
+    id : "1",
     name: "Lotee Football Stadium",
     distance: 16,
     availableSlots: 10,
@@ -21,6 +23,7 @@ export class DataService {
     rating: 4.5
   },
   {
+    id : "2",
     name: "Rush International Stadium",
     distance: 25,
     availableSlots: 15,
@@ -29,6 +32,7 @@ export class DataService {
     rating: 3.8
   }, 
   {
+    id : "3",
     name: "Javaa Stadium",
     distance: 10,
     availableSlots: 5,
@@ -76,5 +80,43 @@ export class DataService {
       })
 
       return addressArr;
+  }
+
+  buildRegisterFormPostData(registerFormInput: RegisterForm) {
+
+    let { firstName,
+      lastName,
+      dateOfBirth,
+      gender,
+      userType,
+      phoneNumber,
+      email,
+      password,
+      address } = registerFormInput;
+
+    let { year, month, day } = dateOfBirth;
+
+    let { line1, line2, country, state, city, pincode } = address;
+
+    let userAddress = {
+      address_line1 : line1,
+      address_line2 : line2,
+      city,
+      state,
+      country, 
+      pincode
+    }
+
+    return {
+      first_name : firstName,
+      last_name: lastName,
+      date_of_birth : `${year}${month}${day}`,
+      address : userAddress,
+      gender : parseInt(gender),
+      role : parseInt(userType),
+      phone : phoneNumber,
+      email,
+      password
+    }
   }
 }

@@ -3,7 +3,24 @@ section .title {
 }
 
 @media screen and (max-width : 908px) {
+  
+  section .title {
+    font-size: 1.5rem;
+  }
+
   .card .card-body {
     justify-content: center;
+  }
+}
+
+@media screen and (max-width : 658px) {
+  section .title {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  section .title {
+    font-size: 1.1rem;
   }
 }

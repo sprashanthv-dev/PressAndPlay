@@ -1,6 +1,7 @@
 .catalog-height {
   height: 125px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .catalog-info {
@@ -38,12 +39,6 @@
 }
 
 @media screen and (max-width: 908px) {
-
-  section .title {
-    font-size: 1.5rem;
-  }
-
-
   .catalog-info .item-details div span {
     margin: 5px auto;
   }
@@ -65,10 +60,6 @@
 }
 
 @media screen and (max-width: 500px) {
-
-  section .title {
-    font-size: 0.9rem;
-  }
 
   .catalog-height {
     width: 100%;
