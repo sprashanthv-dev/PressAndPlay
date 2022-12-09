@@ -66,6 +66,29 @@ export class HttpService {
     return promise;
   }
 
+  makePostApiCall(apiEndPoint : string, baseUrl : string, postData : any, options?:any) : Observable<any> {
+    
+    let endpoint = this.getApiEndPoint(apiEndPoint);
+
+    if(this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(endpoint)) {
+
+      if (this.utilSrv.checkIfObjectKeyHasValues(options)) {
+        let { endPoint, headers, paramsObj } = this.buildRequestOptions(endpoint, options);
+
+        return this.http.post(baseUrl + endPoint, postData, {
+          headers,
+          params: paramsObj
+        })
+        
+      } else {
+        return this.http.post(baseUrl + endpoint, postData);
+      }
+    } else {
+      console.log("Api endpoint should not be null or undefined !");
+      return of(null);
+    }
+  }
+
   getApiEndPoint(endpoint: string) : string | null {
 
     let { API_MAPPING } = PRESS_AND_PLAY_CONSTANTS;
