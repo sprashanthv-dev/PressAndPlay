@@ -3,7 +3,8 @@ import { environment } from "src/environments/environment";
 const apiMapping = {
   "AUTOCOMPLETE_API": "autocomplete",
   "REVERSE_API": "reverse",
-  "CREATE_USER": "user/create"
+  "CREATE_USER": "user/create",
+  "LOGIN_USER": "user/login"
 }
 
 const catalogItemConstants = {
