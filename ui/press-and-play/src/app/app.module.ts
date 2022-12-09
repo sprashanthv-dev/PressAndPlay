@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderModule } from './components/header/header.module';
 import { RegisterComponent } from './components/header/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,8 @@ import { ToastrModule } from 'ngx-toastr';
     SportsCatalogModule,
     HeaderModule,
     ToastrModule.forRoot({
-      timeOut: 2000,
-      progressBar: true,
+      timeOut: 1000,
+      progressBar: false,
       closeButton : true,
       progressAnimation: 'increasing'
     })

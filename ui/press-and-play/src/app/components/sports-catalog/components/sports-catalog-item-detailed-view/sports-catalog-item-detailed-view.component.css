@@ -3,5 +3,10 @@ img {
 }
 .limage {
     border: 20px black;
-    background-color: teal;
+    background-color: rgb(0, 13, 70);
+}
+
+.rcontent {
+    border: 20px black;
+    background-color: rgb(165, 180, 235);
 }

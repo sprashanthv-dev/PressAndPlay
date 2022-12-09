@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SportsCatalogItemDetailedViewComponent implements OnInit {
 
+  rating: any;
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+  setRating(){
+    console.log(this.rating)
+    // call rating API
   }
 
 }

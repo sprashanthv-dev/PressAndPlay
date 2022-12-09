@@ -5,7 +5,7 @@ import { SportsCatalogComponent } from './sports-catalog.component';
 import { SportsCatalogItemDetailedViewComponent } from './components/sports-catalog-item-detailed-view/sports-catalog-item-detailed-view.component';
 import { SportsCatalogRoutingModule } from './sports-catalog-routing.module';
 import {MatChipsModule} from '@angular/material/chips';
-
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,7 @@ import {MatChipsModule} from '@angular/material/chips';
   imports: [
     CommonModule,
     SportsCatalogRoutingModule,
+    NgbRatingModule,
     MatChipsModule
   ],
   exports: [
