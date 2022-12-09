@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiKey: "12ca4794bebe428b8aa32a47864ba8d3",
   geoapifyUrl: "https://api.geoapify.com/v1/geocode/",
-  baseUrl : "localhost:50010/api/v1/"
+  baseUrl : "http://localhost:50010/api/v1/"
 };
 
 /*

@@ -38,4 +38,7 @@ export class UtilService {
       return `${input?.slice(0, characterLimit + 1)} ...`;
     }
   }
+  splitString(input: string, delimiter: string) {
+    return input?.split(delimiter, 10);
+  }
 }

@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { DataService } from 'src/app/services/data.service';
 import { SearchLocation } from 'src/app/models/loc-search-model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
   selector: 'app-loc-search',
@@ -27,8 +28,9 @@ export class LocSearchComponent implements OnInit {
   current_location: SearchLocation;
 
   constructor(
-    private http_service: HttpService,
-    private dataService: DataService) {
+    private httpService: HttpService,
+    private dataService: DataService,
+    private appStateService: AppStateService) {
     this.current_location = { latitude: "", longitude: "" };
   }
 
@@ -47,16 +49,15 @@ export class LocSearchComponent implements OnInit {
   search(): void {
 
     let searchTerm = this.searchForm.get('currentAddress')?.value;
-    console.log(searchTerm); 
+    console.log("Search term: " + searchTerm); 
 
     this.search_results.next(searchTerm);
-    // console.log("search: " + term);
   }
 
   onFocus(term: string): Observable<any> {
     console.log("Focussed");
     console.log("current location: " + this.current_location);
-    return this.http_service.makeGetApiCall('AUTOCOMPLETE_API',
+    return this.httpService.makeGetApiCall('AUTOCOMPLETE_API',
       environment.geoapifyUrl,
       { "queryParams": { 'text': term, "apiKey": environment.apiKey, "limit": 10, "type": "street" } })
       .pipe(map((value) => value['features']),
@@ -70,7 +71,7 @@ export class LocSearchComponent implements OnInit {
       this.current_location = { latitude: latitude.toString(), longitude: longitude.toString() }
 
       console.log(this.current_location);
-      var response = this.http_service.makeGetApiCall('REVERSE_API',
+      var response = this.httpService.makeGetApiCall('REVERSE_API',
         environment.geoapifyUrl,
         {
           "queryParams": {
@@ -94,5 +95,7 @@ export class LocSearchComponent implements OnInit {
   handleLocationSelection() {
     console.log("Inside location selected");
     console.log(this.searchForm.get('currentAddress')?.value);
+    let searchTerm = this.searchForm.get('currentAddress')?.value;
+    this.appStateService.location.next(searchTerm);
   }
 }
