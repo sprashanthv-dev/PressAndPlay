@@ -99,8 +99,8 @@ export class DataService {
     let { line1, line2, country, state, city, pincode } = address;
 
     let userAddress = {
-      address_line1 : line1,
-      address_line2 : line2,
+      address_line_1 : line1,
+      address_line_2 : line2,
       city,
       state,
       country, 

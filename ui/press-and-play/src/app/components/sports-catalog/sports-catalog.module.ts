@@ -4,7 +4,7 @@ import { SportsCatalogItemComponent } from './components/sports-catalog-item/spo
 import { SportsCatalogComponent } from './sports-catalog.component';
 import { SportsCatalogItemDetailedViewComponent } from './components/sports-catalog-item-detailed-view/sports-catalog-item-detailed-view.component';
 import { SportsCatalogRoutingModule } from './sports-catalog-routing.module';
-
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -15,7 +15,8 @@ import { SportsCatalogRoutingModule } from './sports-catalog-routing.module';
   ],
   imports: [
     CommonModule,
-    SportsCatalogRoutingModule
+    SportsCatalogRoutingModule,
+    MatChipsModule
   ],
   exports: [
     SportsCatalogComponent

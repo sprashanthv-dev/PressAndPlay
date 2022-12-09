@@ -76,10 +76,10 @@ export class RegisterComponent implements OnInit {
 
     let requestBody = this.dataSrv.buildRegisterFormPostData(registerForm);
 
-    let { key, details } = this.localStorageDetails;
-
+    let { key, details} = this.localStorageDetails;
+    console.log(details)
     this.httpSrv
-      .makePostApiCall("CREATE_USER", this.baseUrl, requestBody)
+      .makePostApiCall("CREATE_USER", this.baseUrl, JSON.stringify(requestBody))
       .subscribe({
         next: (response: any) => {
           

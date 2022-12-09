@@ -21,9 +21,10 @@ export class HttpService {
 
       if (this.utilSrv.checkIfObjectKeyHasValues(options)) {
         let { endPoint, headers, paramsObj } = this.buildRequestOptions(endpoint, options);
-
+        console.log(headers)
         return this.http.get(baseUrl + endPoint, {
           headers,
+          observe: 'response',
           params: paramsObj
         })
       } else {
@@ -77,11 +78,12 @@ export class HttpService {
 
         return this.http.post(baseUrl + endPoint, postData, {
           headers,
+          observe: 'response',
           params: paramsObj
         })
         
       } else {
-        return this.http.post(baseUrl + endpoint, postData);
+        return this.http.post(baseUrl + endpoint, postData, {observe: 'response'});
       }
     } else {
       console.log("Api endpoint should not be null or undefined !");
@@ -152,7 +154,6 @@ export class HttpService {
     if (isHeadersPresent) {
       headers = this.addHeadersToRequest(options['headers']);
     }
-
     return {
       endPoint: endpoint,
       headers,

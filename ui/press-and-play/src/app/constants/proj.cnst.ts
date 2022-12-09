@@ -5,7 +5,8 @@ const apiMapping = {
   "AUTOCOMPLETE_API": "autocomplete",
   "REVERSE_API": "reverse",
   "CREATE_USER": "user/create",
-  "LOGIN_USER": "user/login"
+  "LOGIN_USER": "user/login",
+  "GET_USER": "user"
 }
 
 const catalogItemConstants = {
@@ -22,8 +23,8 @@ const country = "United States";
 const localStorageDetails = {
   key: "userDetails",
   details: {
-    userId: null,
-    userSessionId: null
+    userId: "testUserId",
+    userSessionId: "testUserSessionId"
   }
 }
 
