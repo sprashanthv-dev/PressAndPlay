@@ -108,9 +108,9 @@ export class DataService {
     }
 
     return {
-      first_name : firstName,
-      last_name: lastName,
-      date_of_birth : `${year}${month}${day}`,
+      firstName,
+      lastName,
+      dateOfBirth : `${year}${month}${day}`,
       address : userAddress,
       gender : parseInt(gender),
       role : parseInt(userType),

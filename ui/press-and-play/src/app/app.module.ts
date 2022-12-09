@@ -10,6 +10,7 @@ import { SportsCatalogModule } from './components/sports-catalog/sports-catalog.
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderModule } from './components/header/header.module';
 import { RegisterComponent } from './components/header/register/register.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,13 @@ import { RegisterComponent } from './components/header/register/register.compone
     NgbModule,
     BrowserAnimationsModule,
     SportsCatalogModule,
-    HeaderModule
+    HeaderModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      progressBar: true,
+      closeButton : true,
+      progressAnimation: 'increasing'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

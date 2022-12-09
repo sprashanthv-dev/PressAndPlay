@@ -3,7 +3,7 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
 </div>
 <div class="modal-body">
-  <form #userRegisterForm="ngForm" (ngSubmit)="handleRegistration(registerForm, userRegisterForm)">
+  <form #userRegisterForm="ngForm" (ngSubmit)="handleRegistration(registerForm)">
 
     <!-- Email and Password -->
     <div class="row">
@@ -145,12 +145,12 @@
         <div class="user-type-container">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" id="customer" name="userType" value="1"
-              [(ngModel)]="registerForm.userType" (change)="handleUserTypeSelection()" required>
+              [(ngModel)]="registerForm.userType" required>
             <label for="customer" class="form-check-label">Customer</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" id="manager" name="userType" value="2"
-              [(ngModel)]="registerForm.userType" (change)="handleUserTypeSelection()">
+              [(ngModel)]="registerForm.userType">
             <label for="manager" class="form-check-label">Manager</label>
           </div>
         </div>
@@ -176,21 +176,9 @@
       </div>
     </div>
 
-
-    <!-- Verification Document -->
-    <div class="row" *ngIf="isUserManager">
-      <div class="col-12">
-        <label for="document" class="form-label">Upload Verification Document</label>
-        <span class="text-danger">*</span>
-        <input class="form-control" type="file" id="document" name="document"
-        (change)="handleFileUpload($event.target)" required>
-      </div>
-    </div>
-
     <!-- Submit button -->
     <div class="col-12 d-flex justify-content-end">
-      <!-- [disabled]="userRegisterForm.invalid" -->
-      <button type="submit" class="btn btn-primary" >Register</button>
+      <button type="submit" class="btn btn-primary" [disabled]="userRegisterForm.invalid">Register</button>
     </div>
   </form>
 </div>
