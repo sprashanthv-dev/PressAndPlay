@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+
 import { NgbActiveModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
 import { Address } from 'src/app/models/address';
 import { RegisterForm } from 'src/app/models/register-form';
 import { DataService } from 'src/app/services/data.service';
+import { HttpService } from 'src/app/services/http.service';
+import { StorageService } from 'src/app/services/storage-service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +18,10 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private modalRef : NgbActiveModal,
-    private dataSrv : DataService) { }
-
-  userTypeConstants : any;
+    private dataSrv : DataService,
+    private httpSrv : HttpService,
+    private utilSrv : UtilService,
+    private storageSrv : StorageService) { }
 
   //* Form Fields
   address : Address = {
@@ -42,35 +46,57 @@ export class RegisterComponent implements OnInit {
   }
 
   //* State Variables
-  isUserManager : boolean = false;
-  verificationDocument : File | null = null;
+  userTypeConstants : any;
+  baseUrl : string = '';
+  localStorageDetails : any = {};
+  registerMessages : any = {};
+  toastrType : any = {};
 
   ngOnInit(): void {
-    let { USERTYPE, COUNTRY } = PRESS_AND_PLAY_CONSTANTS;
+
+    let { USERTYPE, 
+      COUNTRY, 
+      BASE_URL, 
+      LOCAL_STORAGE_DETAILS,
+      APP_MESSAGES ,
+      TOASTR_TYPES
+    } = PRESS_AND_PLAY_CONSTANTS;
 
     this.userTypeConstants = USERTYPE;
     this.registerForm.address!.country = COUNTRY;
+    this.baseUrl = BASE_URL;
 
+    this.registerMessages = APP_MESSAGES.REGISTER_MESSAGES;
     this.registerForm.userType = this.userTypeConstants.CUSTOMER;
+
+    this.localStorageDetails = LOCAL_STORAGE_DETAILS;
   }
 
-  handleRegistration(
-    registerForm: RegisterForm, 
-    formState : NgForm) {
+  handleRegistration(registerForm: RegisterForm) {
 
-    console.log(registerForm);
+    let requestBody = this.dataSrv.buildRegisterFormPostData(registerForm);
 
-    console.log(this.dataSrv.buildRegisterFormPostData(registerForm));
-    console.log("------------------");
-  }
+    let { key, details } = this.localStorageDetails;
 
-  handleUserTypeSelection() {
-    this.isUserManager = this.registerForm.userType === this.userTypeConstants.CUSTOMER 
-      ? false : true;
-  }
+    this.httpSrv
+      .makePostApiCall("CREATE_USER", this.baseUrl, requestBody)
+      .subscribe({
+        next: (response: any) => {
+          
+          let { id } = response;
 
-  handleFileUpload(uploadItem : any) {
-    console.log(uploadItem.files);
+          details.userId = id;
+          this.storageSrv.setValue(key, details);
+
+          this.utilSrv.showToastMessage(this.registerMessages.SUCCESS, this.toastrType.SUCCESS)
+
+          this.closeModal();
+        },
+        error: (err: any) => {
+          console.log("Error in fetching resource ", err);
+          this.utilSrv.showToastMessage(this.registerMessages.ERROR, this.toastrType.ERROR)
+        }
+      })
   }
 
   closeModal() {

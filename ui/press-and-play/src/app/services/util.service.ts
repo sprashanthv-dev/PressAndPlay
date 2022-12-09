@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { PRESS_AND_PLAY_CONSTANTS } from "../constants/proj.cnst";
 
 @Injectable({
   providedIn: "root"
@@ -7,6 +9,8 @@ import { Injectable } from "@angular/core";
 //* Utility related functions (time, date etc.)
 //* will be handled by this service
 export class UtilService {
+
+  constructor(private toastrSrv : ToastrService) { }
 
   checkIfObjectKeyHasValues(obj: any): boolean {
     
@@ -38,7 +42,17 @@ export class UtilService {
       return `${input?.slice(0, characterLimit + 1)} ...`;
     }
   }
+
   splitString(input: string, delimiter: string) {
     return input?.split(delimiter, 10);
+  }
+
+  showToastMessage(message : string, toastrType : string) {
+    
+    if (toastrType === PRESS_AND_PLAY_CONSTANTS.TOASTR_TYPES.SUCCESS) {
+      this.toastrSrv.success(message);
+    } else {
+      this.toastrSrv.error(message);
+    }
   }
 }
