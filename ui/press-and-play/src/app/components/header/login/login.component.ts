@@ -45,25 +45,24 @@ export class LoginComponent implements OnInit {
     this.toastrType = TOASTR_TYPES
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
 
-    console.log(this.localStorageDetails)
+    console.log(LOCAL_STORAGE_DETAILS)
   }
 
   handleLogin(
     loginForm: LoginForm) {
     console.log(loginForm);
 
-    console.log(this.localStorageDetails.details)
+    console.log(this.localStorageDetails)
     let {key, details} = this.localStorageDetails
 
     this.http_service
-        .makePostApiCall("LOGIN_USER", environment.baseUrl, JSON.stringify(loginForm))
+        .makePostApiCall("LOGIN_USER", environment.baseUrl, JSON.stringify(loginForm), {'observe': 'response'})
         .subscribe({
           next: (val: HttpResponse<any>) => {
-            
             console.log(val)
             let session_id = val.headers.get('User-Session-Id')
             let {id} = val.body
-            console.log(session_id, id)
+            console.log(details)
             details.userId = id
             details.userSessionId = session_id
             

@@ -42,8 +42,8 @@ export class HeaderComponent implements OnInit {
       this.localStorageDetails = LOCAL_STORAGE_DETAILS
 
       console.log(this.storageSrv.getValue('userDetails'));
-      this.localStorageDetails.key = 'userDetails'
-      this.localStorageDetails.details = this.storageSrv.getValue('userDetails')
+      // this.localStorageDetails.key = 'userDetails'
+      // this.localStorageDetails.details = this.storageSrv.getValue('userDetails')
       this.storageSrv.isSessionIdSet.subscribe((val: any) =>
       {
         this.isSessionIdSet = val

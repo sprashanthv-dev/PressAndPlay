@@ -21,10 +21,8 @@ export class HttpService {
 
       if (this.utilSrv.checkIfObjectKeyHasValues(options)) {
         let { endPoint, headers, paramsObj } = this.buildRequestOptions(endpoint, options);
-        console.log(headers)
         return this.http.get(baseUrl + endPoint, {
           headers,
-          observe: 'response',
           params: paramsObj
         })
       } else {
@@ -74,16 +72,15 @@ export class HttpService {
     if(this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(endpoint)) {
 
       if (this.utilSrv.checkIfObjectKeyHasValues(options)) {
-        let { endPoint, headers, paramsObj } = this.buildRequestOptions(endpoint, options);
-
+        let { endPoint, headers, observeParams, paramsObj } = this.buildRequestOptions(endpoint, options);
         return this.http.post(baseUrl + endPoint, postData, {
           headers,
-          observe: 'response',
+          observe: observeParams,
           params: paramsObj
         })
         
       } else {
-        return this.http.post(baseUrl + endpoint, postData, {observe: 'response'});
+        return this.http.post(baseUrl + endpoint, postData);
       }
     } else {
       console.log("Api endpoint should not be null or undefined !");
@@ -135,14 +132,20 @@ export class HttpService {
     return headers;
   }
 
+  addObserveParamsToRequest(value: any = 'body' || 'response') : any {
+    let params = value
+    return params;
+  }
+
   buildRequestOptions(endpoint: any, options: any) {
     let paramsObj = undefined;
     let headers = undefined;
+    let observeParams = undefined;
 
     let isUrlParamsPresent = this.utilSrv.checkIfObjectKeyHasValues(options['urlParams']);
     let isQueryParamsPresent = this.utilSrv.checkIfObjectKeyHasValues(options['queryParams']);
     let isHeadersPresent = this.utilSrv.checkIfObjectKeyHasValues(options['headers']);
-
+    let isObserveParamPresent = this.utilSrv.checkIfObjectKeyHasValues(options['observe']);
     if (isUrlParamsPresent) {
       endpoint = this.addOptionsToEndPoint(endpoint, options['urlParams']);
     }
@@ -154,9 +157,14 @@ export class HttpService {
     if (isHeadersPresent) {
       headers = this.addHeadersToRequest(options['headers']);
     }
+    if(isObserveParamPresent)
+    {
+      observeParams = this.addObserveParamsToRequest(options['observe'])
+    }
     return {
       endPoint: endpoint,
       headers,
+      observeParams,
       paramsObj
     }
   }

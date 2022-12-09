@@ -11,7 +11,7 @@ export class StorageService {
 
   constructor(private utilSrv : UtilService) { }
 
-  getValue(key: string) : string | null {
+  getValue(key: string) : string | any {
 
     let value = localStorage.getItem(key);
     if(this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(value))
@@ -21,7 +21,10 @@ export class StorageService {
     }
     else{
       this.isSessionIdSet.next(false);
-      return null;
+      return {
+        userId: null,
+        userSessionId: null
+      };
     }
   }
 
@@ -36,7 +39,6 @@ export class StorageService {
         values.push(value);
       }
     })
-
     return values;
   }
 
@@ -46,7 +48,7 @@ export class StorageService {
       localStorage.setItem(key, JSON.stringify(value));
       this.isSessionIdSet.next(true);
     }
-    
+    console.log('im here')
   }
 
   deleteValue(key: string) : void {

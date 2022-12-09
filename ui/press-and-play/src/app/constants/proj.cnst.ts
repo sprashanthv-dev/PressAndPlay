@@ -23,8 +23,8 @@ const country = "United States";
 const localStorageDetails = {
   key: "userDetails",
   details: {
-    userId: "testUserId",
-    userSessionId: "testUserSessionId"
+    userId: null,
+    userSessionId: null
   }
 }
 
