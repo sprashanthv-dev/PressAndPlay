@@ -33,8 +33,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("fetching localstorage values");
-
     this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
       this.isLoggedIn = val;
     })
@@ -87,8 +85,12 @@ export class HeaderComponent implements OnInit {
     this.modal.open(RegisterComponent, { size: 'lg' });
   }
 
+  //TODO: Call logout api to terminate current session at backend
   handleLogout() {
     this.storageSrv.clearStorage();
-    this.utilSrv.showToastMessage(this.logoutMessages.SUCCESS, this.toastrTypes.SUCCESS)
+    this.utilSrv.showToastMessage(this.logoutMessages.SUCCESS, this.toastrTypes.SUCCESS);
+
+    //* Set user as logged out
+    this.appStateSrv.setUserLoginStatus(false);
   }
 }

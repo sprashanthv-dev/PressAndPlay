@@ -50,19 +50,17 @@ export class LoginComponent implements OnInit {
 
   handleLogin(
     loginForm: LoginForm) {
-    console.log(loginForm);
 
-    console.log(this.localStorageDetails)
-    let {key, details} = this.localStorageDetails
+    let {key, details} = this.localStorageDetails;
 
     this.http_service
         .makePostApiCall("LOGIN_USER", environment.baseUrl, JSON.stringify(loginForm), {'observe': 'response'})
         .subscribe({
           next: (val: HttpResponse<any>) => {
-            console.log(val)
-            let session_id = val.headers.get('User-Session-Id')
-            let {id} = val.body
-            console.log(details)
+
+            let session_id = val.headers.get('User-Session-Id');
+            let {id} = val.body;
+
             details.userId = id
             details.userSessionId = session_id
             

@@ -52,6 +52,5 @@ export class StorageService {
 
   clearStorage(): void {
     localStorage.clear();
-    // this.isSessionIdSet.next(false);
   } 
 }

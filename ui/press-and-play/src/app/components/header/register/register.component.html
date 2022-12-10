@@ -73,16 +73,28 @@
 
     <!-- Address -->
     <div class="row">
-      <label for="line1" class="form-label">Address</label>
       <div class="col-lg-6 col-xs-12 mb-3">
-        <input type="text" class="form-control" name="line1" [(ngModel)]="registerForm.address!.line1" id="line1" placeholder="Address Line 1">
+        <label for="line1" class="form-label">Address Line 1</label>
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" name="line1" [(ngModel)]="registerForm.address!.line1" 
+          id="line1" placeholder="Address Line 1"  #line1="ngModel" required>
+
+          <!-- Validation - Address Line 1 -->
+          <div *ngIf="line1.invalid && (line1.dirty || line1.touched)" class="error-message">
+            <span *ngIf="line1.errors?.['required']" class="text-danger">
+              *Address Line 1 is required.
+            </span>
+          </div>
+
       </div>
       <div class="col-lg-6 col-xs-12 mb-3">
-        <input type="text" class="form-control" name="line2" [(ngModel)]="registerForm.address!.line2" placeholder="Address Line 2">
+        <label for="line2" class="form-label">Address Line 1</label>
+        <input type="text" class="form-control" name="line2" id="line2"
+          [(ngModel)]="registerForm.address!.line2" placeholder="Address Line 2">
       </div>
     </div>
 
-    <!-- City, State, Country -->
+    <!-- City, State, Country, Pincode -->
     <div class="row">
       <div class="col-lg-3 col-md-6 mb-3">
         <label for="country" class="form-label">Country</label>
@@ -90,15 +102,46 @@
       </div>
       <div class="col-lg-3 col-md-6 mb-3">
         <label for="state" class="form-label">State</label>
-        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.state" name="state" id="state" placeholder="Enter state">
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.state" 
+          name="state" id="state" placeholder="Enter state" #state="ngModel" required>
+        
+          <!-- Validation - State -->
+          <div *ngIf="state.invalid && (state.dirty || state.touched)" class="error-message">
+            <span *ngIf="state.errors?.['required']" class="text-danger" required>
+              *State is required.
+            </span>
+          </div>
+
+
       </div>
       <div class="col-lg-3 col-md-6 mb-3">
         <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.city" name="city" id="city" placeholder="Enter city">
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.city" 
+          name="city" id="city" placeholder="Enter city" #city="ngModel">
+
+           <!-- Validation - City -->
+          <div *ngIf="city.invalid && (city.dirty || city.touched)" class="error-message">
+            <span *ngIf="city.errors?.['required']" class="text-danger" required>
+              *City is required.
+            </span>
+          </div>
+
       </div>
       <div class="col-lg-3 col-md-6 mb-3">
         <label for="pincode" class="form-label">Pincode</label>
-        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.pincode" name="pincode" id="pincode" placeholder="Enter pincode">
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="registerForm.address!.pincode" 
+          name="pincode" id="pincode" placeholder="Enter pincode" #pincode="ngModel" required>
+
+           <!-- Validation - Pincode -->
+          <div *ngIf="pincode.invalid && (pincode.dirty || pincode.touched)" class="error-message">
+            <span *ngIf="pincode.errors?.['required']" class="text-danger">
+              *Pincode is required.
+            </span>
+          </div>
+
       </div>
     </div>
 
