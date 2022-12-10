@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
+import { StorageService } from "./storage-service";
 
 @Injectable({
   providedIn: "root"
@@ -7,10 +8,17 @@ import { Subject } from "rxjs";
 
 export class AppStateService {
 
+  constructor(private storageSrv : StorageService) {}
+
   location = new Subject<string>();
 
   setLocation(location : string) {
     this.location.next(location);
   }
 
+  userLoginStatus = new BehaviorSubject<boolean>(false);
+
+  setUserLoginStatus(status : boolean) {
+    this.userLoginStatus.next(status);
+  }
 }

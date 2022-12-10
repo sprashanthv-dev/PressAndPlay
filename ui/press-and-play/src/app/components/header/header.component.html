@@ -7,13 +7,13 @@
             <app-loc-search></app-loc-search>
         </div>
     </div>
-    <div *ngIf="isSessionIdSet == false" class="col-2 p-2 btn-container">
+    <div *ngIf="!isLoggedIn" class="col-2 p-2 btn-container">
         <div class="btn-group d-flex justify-content-between">
             <button type="button" class="btn btn-outline-success" (click)="handleLogin()">Login</button>
             <button type="button" class="btn btn-outline-success" (click)="handleSignUp()">Sign Up</button>
         </div>
     </div>
-    <div *ngIf="isSessionIdSet == true" class="col-2 p-2 btn-container">
+    <div *ngIf="isLoggedIn" class="col-2 p-2 btn-container">
         <div class="btn-group d-flex justify-content-between">
             <ng-template #popTitle>User Profile</ng-template>
             

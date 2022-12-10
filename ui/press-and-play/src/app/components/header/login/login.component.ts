@@ -1,10 +1,9 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
 import { LoginForm } from 'src/app/models/login-form';
-import { DataService } from 'src/app/services/data.service';
+import { AppStateService } from 'src/app/services/app-state.service';
 import { HttpService } from 'src/app/services/http.service';
 import { StorageService } from 'src/app/services/storage-service';
 import { UtilService } from 'src/app/services/util.service';
@@ -26,11 +25,12 @@ export class LoginComponent implements OnInit {
   localStorageDetails : any = {};
   toastrType : any = {};
 
-  constructor(private modalRef: NgbActiveModal,
-    private dataSrv : DataService,
+  constructor(
+    private modalRef: NgbActiveModal,
     private utilSrv: UtilService,
     private http_service: HttpService,
-    private storageSrv: StorageService) { }
+    private storageSrv: StorageService,
+    private appStateSrv : AppStateService) { }
 
   ngOnInit(): void {
     let { 
@@ -66,7 +66,8 @@ export class LoginComponent implements OnInit {
             details.userId = id
             details.userSessionId = session_id
             
-            this.storageSrv.setValue(key, details)
+            this.storageSrv.setValue(key, details);
+            this.appStateSrv.setUserLoginStatus(true);
 
             this.utilSrv.showToastMessage(this.loginMessages.SUCCESS, this.toastrType.SUCCESS)
             this.closeModal();

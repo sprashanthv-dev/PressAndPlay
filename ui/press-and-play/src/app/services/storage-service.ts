@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
+import { AppStateService } from "./app-state.service";
 import { UtilService } from "./util.service";
 
 @Injectable({
@@ -7,24 +8,18 @@ import { UtilService } from "./util.service";
 })
 
 export class StorageService {
-  isSessionIdSet = new Subject<boolean>();
 
   constructor(private utilSrv : UtilService) { }
 
   getValue(key: string) : string | any {
 
     let value = localStorage.getItem(key);
-    if(this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(value))
-    {
-      this.isSessionIdSet.next(true);
+
+    if (this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(value)) {
       return JSON.parse(value!);
     }
-    else{
-      this.isSessionIdSet.next(false);
-      return {
-        userId: null,
-        userSessionId: null
-      };
+    else {
+      return null;
     }
   }
 
@@ -46,7 +41,7 @@ export class StorageService {
 
     if (this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(key)) {
       localStorage.setItem(key, JSON.stringify(value));
-      this.isSessionIdSet.next(true);
+      // this.isSessionIdSet.next(true);
     }
     console.log('im here')
   }
@@ -57,6 +52,6 @@ export class StorageService {
 
   clearStorage(): void {
     localStorage.clear();
-    this.isSessionIdSet.next(false);
+    // this.isSessionIdSet.next(false);
   } 
 }

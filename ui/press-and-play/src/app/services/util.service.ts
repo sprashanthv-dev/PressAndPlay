@@ -55,4 +55,23 @@ export class UtilService {
       this.toastrSrv.error(message);
     }
   }
+
+  isAnyObjectValueNull(inputObj : any) {
+
+    if (Object.keys(inputObj).length > 0) {
+
+      for (let key in inputObj) {
+
+        let value = inputObj[key as keyof typeof inputObj];
+
+        if (this.isNullOrUndefined(value)) {
+          return true;
+        }
+      }
+    } else {
+      return true;
+    }
+
+    return false;
+  }
 }
