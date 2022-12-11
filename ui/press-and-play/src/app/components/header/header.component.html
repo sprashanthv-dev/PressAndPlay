@@ -18,8 +18,10 @@
         <div class="btn-group d-flex justify-content-between">
             <ng-template #popTitle>User Profile</ng-template>
             <ng-template #popContent let-detail="details">
-                <ng-container *ngFor="let a of detail | keyvalue">
-                    <div><b>{{a.key}}</b>: {{a.value}} </div>
+                <ng-container *ngFor="let profileInfo of profileDetails | keyvalue">
+                    <div>
+                        <strong>{{profileInfo.key}}</strong>: {{profileInfo.value}} 
+                    </div>
                 </ng-container>
             </ng-template>
             <button

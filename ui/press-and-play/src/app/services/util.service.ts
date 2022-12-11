@@ -1,5 +1,7 @@
+import { HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { environment } from "src/environments/environment";
 import { PRESS_AND_PLAY_CONSTANTS } from "../constants/proj.cnst";
 
 @Injectable({
@@ -87,5 +89,23 @@ export class UtilService {
     }
 
     return false;
+  }
+
+  buildRequestBaseUrl(serviceType : string) {
+
+    let requestUrl = null;
+
+    let serviceTypes = PRESS_AND_PLAY_CONSTANTS.SERVICE_TYPES;
+    let { baseUrl, ports, apiSuffix } = environment;
+
+    if (serviceType === serviceTypes.USER) {
+      requestUrl = `${baseUrl}${ports.user}${apiSuffix}`;
+    } else if (serviceType === serviceTypes.COURT) {
+      requestUrl = `${baseUrl}${ports.court}${apiSuffix}`;
+    } else {
+      requestUrl = `${baseUrl}${ports.events}${apiSuffix}`;
+    }
+
+    return requestUrl;
   }
 }

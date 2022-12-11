@@ -18,6 +18,12 @@ const userType = {
   MANAGER : '2'
 }
 
+const serviceTypes = {
+  USER : "user",
+  COURT: "court",
+  EVENTS : "event"
+}
+
 const country = "United States";
 
 const localStorageDetails = {
@@ -44,5 +50,6 @@ export const PRESS_AND_PLAY_CONSTANTS = {
   LOCAL_STORAGE_DETAILS : localStorageDetails,
   TOASTR_TYPES : toastrTypes,
   APP_MESSAGES : ALL_MESSAGES,
-  EXCLUDED_URLS : excludedUrls
+  EXCLUDED_URLS : excludedUrls,
+  SERVICE_TYPES : serviceTypes
 }

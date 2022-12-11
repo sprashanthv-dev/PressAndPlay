@@ -1,9 +1,9 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
 import { AppStateService } from 'src/app/services/app-state.service';
+import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
 import { StorageService } from 'src/app/services/storage-service';
 import { UtilService } from 'src/app/services/util.service';
@@ -20,34 +20,44 @@ export class HeaderComponent implements OnInit {
   logoutMessages: any;
   toastrTypes: any;
   baseUrl: string = "";
-  localStorageDetails: any = {}
+  localStorageDetails: any = {};
+  serviceTypes : any = {};
 
   isLoggedIn: boolean | undefined;
+  profileDetails : any = {};
 
   constructor(
     private modal: NgbModal,
     private storageSrv: StorageService,
     private httpSrv: HttpService,
     private utilSrv: UtilService,
+    private dataSrv : DataService,
     private appStateSrv: AppStateService) {
   }
 
   ngOnInit(): void {
+
     this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
       this.isLoggedIn = val;
     })
 
+    this.initializeState();
+  }
+
+  initializeState() {
     let {
       APP_MESSAGES,
       TOASTR_TYPES,
       BASE_URL,
-      LOCAL_STORAGE_DETAILS
+      LOCAL_STORAGE_DETAILS,
+      SERVICE_TYPES
     } = PRESS_AND_PLAY_CONSTANTS
 
     this.logoutMessages = APP_MESSAGES.LOGOUT_MESSAGES;
     this.toastrTypes = TOASTR_TYPES;
     this.baseUrl = BASE_URL
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
+    this.serviceTypes = SERVICE_TYPES;
   }
 
   togglePopOver(popOverRef: any) {
@@ -70,11 +80,14 @@ export class HeaderComponent implements OnInit {
           urlParams : { userId },
         }
 
+        let baseUrl = this.utilSrv.buildRequestBaseUrl(this.serviceTypes.USER);
+
         this.httpSrv
-          .makeGetApiCall("GET_USER", this.baseUrl, options)
+          .makeGetApiCall("GET_USER", baseUrl, options)
           .subscribe({
               next: (response) => {
-                console.log("Profile Response ", response);
+                this.profileDetails = this.dataSrv.formatUserProfileResponse(response);
+                popOverRef.open(this.profileDetails);
               },
               error: (err) => {
                 console.log(err);
@@ -82,7 +95,6 @@ export class HeaderComponent implements OnInit {
             }
           )
 
-        popOverRef.open({ details: { 'name': 'value' } });
       }
     }
   }

@@ -20,10 +20,12 @@ export class LoginComponent implements OnInit {
     email: '',
     password: ''
   }
+
   baseUrl: any = {};
   loginMessages: any = {}
   localStorageDetails : any = {};
   toastrType : any = {};
+  serviceTypes : any =  {};
 
   constructor(
     private modalRef: NgbActiveModal,
@@ -33,28 +35,36 @@ export class LoginComponent implements OnInit {
     private appStateSrv : AppStateService) { }
 
   ngOnInit(): void {
-    let { 
-      BASE_URL, 
+    this.initializeState();
+  }
+
+  initializeState() {
+
+    let {
+      BASE_URL,
       LOCAL_STORAGE_DETAILS,
       APP_MESSAGES,
-      TOASTR_TYPES
+      TOASTR_TYPES,
+      SERVICE_TYPES
     } = PRESS_AND_PLAY_CONSTANTS;
 
     this.baseUrl = BASE_URL;
     this.loginMessages = APP_MESSAGES.LOGIN_MESSAGES
     this.toastrType = TOASTR_TYPES
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
-
-    console.log(LOCAL_STORAGE_DETAILS)
+    this.serviceTypes = SERVICE_TYPES;
   }
 
   handleLogin(
     loginForm: LoginForm) {
 
-    let {key, details} = this.localStorageDetails;
+    let { key, details } = this.localStorageDetails;
+
+    let baseUrl = this.utilSrv.buildRequestBaseUrl(this.serviceTypes.USER);
+    console.log("Base url", baseUrl);
 
     this.http_service
-        .makePostApiCall("LOGIN_USER", environment.baseUrl, JSON.stringify(loginForm), {'observe': 'response'})
+        .makePostApiCall("LOGIN_USER", baseUrl, JSON.stringify(loginForm), {'observe': 'response'})
         .subscribe({
           next: (val: HttpResponse<any>) => {
 

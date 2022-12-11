@@ -39,11 +39,14 @@
 
                     <div class="slots">
                         <span>Available Slots: </span>
-                        <mat-chip-list class="chips">
-                            <mat-chip>9:00 AM - 10:00 AM </mat-chip>
-                            <mat-chip>10:00 AM - 11:00 AM</mat-chip>
-                            <mat-chip>11:00 AM - 12:00 AM </mat-chip>
-                            <mat-chip>5:00 PM - 6:00 PM </mat-chip>
+                        
+                        <mat-chip-list class="chips" multiple="false">
+                            <mat-chip *ngFor="let slot of slots" 
+                                [selected]="slot.selected" 
+                                (click)="handleSlotSelection(slot)">
+                                {{ slot.time }}
+                            </mat-chip>
+                            <!-- <mat-chip [selected]="state1" (selectionChange)="handleSlotSelection($event)">9:00 AM - 10:00 AM </mat-chip> -->
                         </mat-chip-list>
                     </div>
                 </div>

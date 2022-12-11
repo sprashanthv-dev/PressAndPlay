@@ -44,7 +44,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return request.clone({
       setHeaders: {
-        authorization: userSessionId
+        "User-Session-Id": userSessionId
       }
     })
   }

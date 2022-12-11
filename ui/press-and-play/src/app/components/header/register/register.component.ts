@@ -51,15 +51,19 @@ export class RegisterComponent implements OnInit {
   localStorageDetails : any = {};
   registerMessages : any = {};
   toastrType : any = {};
+  serviceTypes : any = {};
 
   ngOnInit(): void {
+    this.initializeState();
+  }
 
+  initializeState() {
     let { USERTYPE, 
       COUNTRY, 
       BASE_URL, 
       LOCAL_STORAGE_DETAILS,
-      APP_MESSAGES ,
-      TOASTR_TYPES
+      APP_MESSAGES,
+      SERVICE_TYPES
     } = PRESS_AND_PLAY_CONSTANTS;
 
     this.userTypeConstants = USERTYPE;
@@ -70,16 +74,18 @@ export class RegisterComponent implements OnInit {
     this.registerForm.userType = this.userTypeConstants.CUSTOMER;
 
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
+    this.serviceTypes = SERVICE_TYPES;
   }
 
   handleRegistration(registerForm: RegisterForm) {
 
     let requestBody = this.dataSrv.buildRegisterFormPostData(registerForm);
+    let baseUrl = this.utilSrv.buildRequestBaseUrl(this.serviceTypes.USER);
 
     let { key, details} = this.localStorageDetails;
     console.log(details)
     this.httpSrv
-      .makePostApiCall("CREATE_USER", this.baseUrl, JSON.stringify(requestBody))
+      .makePostApiCall("CREATE_USER", baseUrl, JSON.stringify(requestBody))
       .subscribe({
         next: (response: any) => {
           

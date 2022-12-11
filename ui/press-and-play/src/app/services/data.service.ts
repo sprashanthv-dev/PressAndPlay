@@ -119,4 +119,14 @@ export class DataService {
       password
     }
   }
+
+  formatUserProfileResponse(profileResponse : any) {
+
+    let { firstName, lastName, email } = profileResponse;
+
+    return {
+      Name : `${firstName} ${lastName}`,
+      Email : email
+    }
+  }
 }
