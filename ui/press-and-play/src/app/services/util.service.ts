@@ -74,4 +74,18 @@ export class UtilService {
 
     return false;
   }
+
+  isUrlInExcludedList(url: string) {
+
+    let excludedUrls = PRESS_AND_PLAY_CONSTANTS.EXCLUDED_URLS;
+
+    for (let excludedUrl of excludedUrls) {
+
+      if (url.includes(excludedUrl)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

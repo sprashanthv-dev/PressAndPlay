@@ -33,6 +33,8 @@ const toastrTypes = {
   ERROR : 'error'
 }
 
+const excludedUrls = ["login", "create"]
+
 export const PRESS_AND_PLAY_CONSTANTS = {
   API_MAPPING : apiMapping,
   BASE_URL : environment.baseUrl,
@@ -41,5 +43,6 @@ export const PRESS_AND_PLAY_CONSTANTS = {
   COUNTRY : country,
   LOCAL_STORAGE_DETAILS : localStorageDetails,
   TOASTR_TYPES : toastrTypes,
-  APP_MESSAGES : ALL_MESSAGES
+  APP_MESSAGES : ALL_MESSAGES,
+  EXCLUDED_URLS : excludedUrls
 }

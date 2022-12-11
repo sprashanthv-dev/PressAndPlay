@@ -115,7 +115,6 @@ export class HttpService {
 
     values.forEach((value: any) => {
        apiEndPoint += `/${value}`
-       console.log(value);
     })
 
     return apiEndPoint;
@@ -126,7 +125,7 @@ export class HttpService {
 
     for(let key in headers) {
       let value = headers[key];
-      header.set(key, value);
+      header = header.append(key, value);
     }
 
     return headers;
@@ -146,6 +145,7 @@ export class HttpService {
     let isQueryParamsPresent = this.utilSrv.checkIfObjectKeyHasValues(options['queryParams']);
     let isHeadersPresent = this.utilSrv.checkIfObjectKeyHasValues(options['headers']);
     let isObserveParamPresent = this.utilSrv.checkIfObjectKeyHasValues(options['observe']);
+    
     if (isUrlParamsPresent) {
       endpoint = this.addOptionsToEndPoint(endpoint, options['urlParams']);
     }
@@ -157,10 +157,11 @@ export class HttpService {
     if (isHeadersPresent) {
       headers = this.addHeadersToRequest(options['headers']);
     }
-    if(isObserveParamPresent)
-    {
+
+    if(isObserveParamPresent) {
       observeParams = this.addObserveParamsToRequest(options['observe'])
     }
+
     return {
       endPoint: endpoint,
       headers,

@@ -16,20 +16,20 @@ import { RegisterComponent } from './register/register.component';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
- 
+
   logoutMessages: any;
   toastrTypes: any;
   baseUrl: string = "";
   localStorageDetails: any = {}
 
-  isLoggedIn : boolean | undefined;
+  isLoggedIn: boolean | undefined;
 
   constructor(
     private modal: NgbModal,
     private storageSrv: StorageService,
     private httpSrv: HttpService,
     private utilSrv: UtilService,
-    private appStateSrv : AppStateService) {
+    private appStateSrv: AppStateService) {
   }
 
   ngOnInit(): void {
@@ -50,30 +50,40 @@ export class HeaderComponent implements OnInit {
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
   }
 
-  toggle(popover: any) {
-    if (popover.isOpen()) {
-      popover.close();
+  togglePopOver(popOverRef: any) {
+
+    if (popOverRef.isOpen()) {
+      popOverRef.close();
     } else {
-      // not sure whats going wrong
-      console.log(this.localStorageDetails)
-      let { key, details } = this.localStorageDetails
-      this.httpSrv
-        .makeGetApiCall("GET_USER", this.baseUrl,
-          {
-            'urlParams': [details.userId],
-            'headers': { 'user-session-id': details.userSessionId }
-          })
-        .subscribe(
-          {
-            next: (value) => {
-              console.log(value)
-            },
-            error: (err) => {
-              console.log(err)
+      
+      let { key } = this.localStorageDetails;
+      let userInfo = this.storageSrv.getValue(key);
+
+      let userInfoExists = !this.utilSrv.isNullOrUndefined(userInfo) 
+        && !this.utilSrv.isAnyObjectValueNull(userInfo);
+
+      if (userInfoExists) {
+
+        let { userId } = userInfo;
+
+        let options = {
+          urlParams : { userId },
+        }
+
+        this.httpSrv
+          .makeGetApiCall("GET_USER", this.baseUrl, options)
+          .subscribe({
+              next: (response) => {
+                console.log("Profile Response ", response);
+              },
+              error: (err) => {
+                console.log(err);
+              }
             }
-          }
-        )
-      popover.open({ details: { 'name': 'value' } });
+          )
+
+        popOverRef.open({ details: { 'name': 'value' } });
+      }
     }
   }
 

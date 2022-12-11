@@ -14,9 +14,9 @@
         </div>
     </div>
     <div *ngIf="isLoggedIn" class="col-2 p-2 btn-container">
+        
         <div class="btn-group d-flex justify-content-between">
             <ng-template #popTitle>User Profile</ng-template>
-            
             <ng-template #popContent let-detail="details">
                 <ng-container *ngFor="let a of detail | keyvalue">
                     <div><b>{{a.key}}</b>: {{a.value}} </div>
@@ -27,9 +27,9 @@
                 class="btn btn-warning me-2"
                 placement="bottom"
                 triggers="manual" 
-                #p1="ngbPopover" 
+                #popOverRef="ngbPopover" 
                 [ngbPopover]="popContent"
-                (click)="toggle(p1)"
+                (click)="togglePopOver(popOverRef)"
                 [popoverTitle]="popTitle">
                 Profile</button>
             <button type="button" class="btn btn-outline-danger" (click)="handleLogout()">Logout</button>
