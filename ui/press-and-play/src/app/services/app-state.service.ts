@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
+import { LocationInfo } from "../models/location-info";
 import { StorageService } from "./storage-service";
 
 @Injectable({
@@ -10,9 +11,9 @@ export class AppStateService {
 
   constructor(private storageSrv : StorageService) {}
 
-  location = new Subject<string>();
+  location = new Subject<LocationInfo>();
 
-  setLocation(location : string) {
+  setLocation(location : LocationInfo) {
     this.location.next(location);
   }
 

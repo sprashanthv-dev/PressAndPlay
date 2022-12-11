@@ -34,12 +34,17 @@ const localStorageDetails = {
   }
 }
 
+const catalogListHeader = {
+  DEFAULT: "Available Sporting Centers",
+  LOCATION: "Sporting centers near "
+}
+
 const toastrTypes = {
   SUCCESS : 'success',
   ERROR : 'error'
 }
 
-const excludedUrls = ["login", "create"]
+const excludedUrls = ["login", "create", "reverse", "autocomplete"]
 
 export const PRESS_AND_PLAY_CONSTANTS = {
   API_MAPPING : apiMapping,
@@ -51,5 +56,6 @@ export const PRESS_AND_PLAY_CONSTANTS = {
   TOASTR_TYPES : toastrTypes,
   APP_MESSAGES : ALL_MESSAGES,
   EXCLUDED_URLS : excludedUrls,
-  SERVICE_TYPES : serviceTypes
+  SERVICE_TYPES : serviceTypes,
+  CATALOG_LIST_HEADER : catalogListHeader
 }

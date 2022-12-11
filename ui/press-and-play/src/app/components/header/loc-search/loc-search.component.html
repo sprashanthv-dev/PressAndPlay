@@ -4,10 +4,12 @@
             <input type="text" placeholder="Enter your location" 
                 matInput [matAutocomplete]="auto"
                 formControlName="currentAddress" (input)="search()">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleLocationSelection()">
+            <mat-autocomplete #auto="matAutocomplete">
                 <ng-container *ngIf="finalAddresses.length > 0">
-                    <mat-option *ngFor="let address of finalAddresses" [value]="address['addr']">
-                        {{address.addr}}
+                    <mat-option 
+                        *ngFor="let address of finalAddresses" [value]="address['address']"
+                        (onSelectionChange)="handleLocationSelection(address)">
+                        {{address.address}}
                     </mat-option>
                 </ng-container>
             </mat-autocomplete>

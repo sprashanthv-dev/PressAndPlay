@@ -60,7 +60,7 @@ export class UtilService {
 
   isAnyObjectValueNull(inputObj : any) {
 
-    if (Object.keys(inputObj).length > 0) {
+    if (!this.isNullOrUndefined(inputObj) && Object.keys(inputObj).length > 0) {
 
       for (let key in inputObj) {
 
