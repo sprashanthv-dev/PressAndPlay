@@ -32,6 +32,10 @@ const ADD_COURT_MESSAGES = {
   ERROR : "Error while adding sporting center. Try again later."
 }
 
+const NOTIFICATION_MESSAGES = {
+  ERROR : "Error while fetching notifications. Try again later."
+}
+
 export const ALL_MESSAGES = {
   REGISTER_MESSAGES,
   LOGIN_MESSAGES,
@@ -39,6 +43,7 @@ export const ALL_MESSAGES = {
   SESSION_MESSAGES,
   BOOKING_SLOT_MESSAGES,
   RATING_MESSAGES,
-  ADD_COURT_MESSAGES
+  ADD_COURT_MESSAGES,
+  NOTIFICATION_MESSAGES
 }
 

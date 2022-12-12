@@ -12,7 +12,8 @@ const apiMapping = {
   "GET_COURT_DETAILS_BY_ID" : "court",
   "BOOK_SLOT_FOR_COURT": "book",
   "RATE_COURT": "rating",
-  "CREATE_COURT": "court/create"
+  "CREATE_COURT": "court/create",
+  "GET_NOTIFICATIONS": "events"
 }
 
 const catalogItemConstants = {

@@ -1,6 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { AppStateService } from "./app-state.service";
 import { UtilService } from "./util.service";
 
 @Injectable({
@@ -41,9 +39,7 @@ export class StorageService {
 
     if (this.utilSrv.isStringNotNullOrUndefinedAndNotEmpty(key)) {
       localStorage.setItem(key, JSON.stringify(value));
-      // this.isSessionIdSet.next(true);
     }
-    console.log('im here')
   }
 
   deleteValue(key: string) : void {

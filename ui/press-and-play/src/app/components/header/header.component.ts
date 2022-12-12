@@ -10,6 +10,8 @@ import { UtilService } from 'src/app/services/util.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,10 +23,18 @@ export class HeaderComponent implements OnInit {
   toastrTypes: any;
   baseUrl: string = "";
   localStorageDetails: any = {};
+
   serviceTypes : any = {};
+  notificationMessages : any = {};
 
   isLoggedIn: boolean | undefined;
   profileDetails : any = {};
+
+  faBell = faClock;
+  currentRole : string | null = null;
+  isCollapsed : boolean = true;
+
+  messages : any[] = [];
 
   constructor(
     private modal: NgbModal,
@@ -39,6 +49,14 @@ export class HeaderComponent implements OnInit {
 
     this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
       this.isLoggedIn = val;
+
+      let userInfo = this.storageSrv.getValue('userInfo');
+
+      if (!this.utilSrv.isNullOrUndefined(userInfo)) {
+        let { role } = userInfo;
+        this.currentRole = role;
+    }
+
     })
 
     this.initializeState();
@@ -58,6 +76,7 @@ export class HeaderComponent implements OnInit {
     this.baseUrl = BASE_URL
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
     this.serviceTypes = SERVICE_TYPES;
+    this.notificationMessages = APP_MESSAGES.NOTIFICATION_MESSAGES;
   }
 
   togglePopOver(popOverRef: any) {
@@ -105,6 +124,24 @@ export class HeaderComponent implements OnInit {
 
   handleSignUp() {
     this.modal.open(RegisterComponent, { size: 'lg' });
+  }
+
+  handleNotifications() {
+
+    let baseUrl = this.utilSrv.buildRequestBaseUrl(this.serviceTypes.EVENTS);
+
+    this.httpSrv.makeGetApiCall("GET_NOTIFICATIONS", baseUrl)
+      .subscribe({
+        next : (response : any) => {
+          console.log("Response ", response);
+          this.messages = this.dataSrv.formatNotificationMessages(response);
+          console.log("Messages ", this.messages);
+        },  
+        error : (err : any) => {
+          console.log("Error ", err);
+          this.utilSrv.showToastMessage(this.notificationMessages.ERROR, this.toastrTypes.ERROR);
+        }
+      })
   }
 
   //TODO: Call logout api to terminate current session at backend

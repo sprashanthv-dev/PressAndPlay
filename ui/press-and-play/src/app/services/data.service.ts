@@ -239,4 +239,17 @@ export class DataService {
       resolve(latLon);
     })
   }
+
+  formatNotificationMessages(response : any[]) : any[] {
+
+    let messages: string[] = [];
+
+    response.forEach(item => {
+
+      let { userFirstName, courtName, timeStartHHMM, timeEndHHMM } = item;
+      messages.push(`${userFirstName} has booked ${courtName} between ${timeStartHHMM} and ${timeEndHHMM} hours`)
+    })
+
+    return messages;
+  }
 }

@@ -14,27 +14,36 @@
         </div>
     </div>
     <div *ngIf="isLoggedIn" class="col-2 p-2 btn-container">
-        
+
         <div class="btn-group d-flex justify-content-between">
+            <button type="button" class="btn btn-outline" *ngIf="currentRole === 'manager'" (click)="collapse.toggle(); handleNotifications()"
+                [attr.aria-expanded]="!isCollapsed">
+                <fa-icon [icon]="faBell" size="2x" class="bell-icon"></fa-icon>
+            </button>
             <ng-template #popTitle>User Profile</ng-template>
             <ng-template #popContent let-detail="details">
                 <ng-container *ngFor="let profileInfo of profileDetails | keyvalue">
                     <div>
-                        <strong>{{profileInfo.key}}</strong>: {{profileInfo.value}} 
+                        <strong>{{profileInfo.key}}</strong>: {{profileInfo.value}}
                     </div>
                 </ng-container>
             </ng-template>
-            <button
-                type="button"
-                class="btn btn-warning me-2"
-                placement="bottom"
-                triggers="manual" 
-                #popOverRef="ngbPopover" 
-                [ngbPopover]="popContent"
-                (click)="togglePopOver(popOverRef)"
+            <button type="button" class="btn btn-warning me-2" placement="bottom" triggers="manual"
+                #popOverRef="ngbPopover" [ngbPopover]="popContent" (click)="togglePopOver(popOverRef)"
                 [popoverTitle]="popTitle">
                 Profile</button>
             <button type="button" class="btn btn-outline-danger" (click)="handleLogout()">Logout</button>
         </div>
     </div>
+</div>
+
+<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+
+    <ng-container *ngFor="let message of messages">
+        <div class="card">
+            <div class="card-body text-center">
+                {{ message }}
+            </div>
+        </div>
+    </ng-container>
 </div>

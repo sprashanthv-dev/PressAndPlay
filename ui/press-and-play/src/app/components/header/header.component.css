@@ -10,6 +10,11 @@
     margin-top: 10px;
 }
 
+.bell-icon {
+    color: crimson;
+    margin: 0px 10px;
+}
+
 @media screen and (max-width : 1400px) {
 
     .logo-search-container img {
