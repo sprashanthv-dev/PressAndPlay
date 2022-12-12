@@ -41,7 +41,7 @@ export class UtilService {
     if (this.isStringUndefined(input)) {
       return input;
     } else  {
-      return `${input?.slice(0, characterLimit + 1)} ...`;
+      return `${input?.slice(0, characterLimit + 1)} ..`;
     }
   }
 
@@ -106,6 +106,16 @@ export class UtilService {
       requestUrl = `${baseUrl}${ports.events}${apiSuffix}`;
     }
 
+    console.log(requestUrl);
+
     return requestUrl;
+  }
+
+  formatTime(time : number) {
+
+    let hours = time / 100;
+    let minutes = time % 100;
+
+    return `${hours}:${minutes}0`;
   }
 }

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
 import { SportsCatalogItem } from 'src/app/models/sports-catalog-item';
 import { DataService } from 'src/app/services/data.service';
@@ -12,13 +13,13 @@ import { UtilService } from 'src/app/services/util.service';
 export class SportsCatalogItemComponent implements OnInit {
 
   @Input() sportsCatalogItem : SportsCatalogItem = {};
-  @Output() onCatalogItemSelected : EventEmitter<string> = new EventEmitter<string>();
 
   catalogItemConstants = PRESS_AND_PLAY_CONSTANTS.CATALOG_ITEM_CONSTANTS;
 
   constructor(
     private dataSrv : DataService,
-    private utilSrv : UtilService) { }
+    private utilSrv : UtilService,
+    private router : Router) { }
 
   ngOnInit(): void {
     this.sportsCatalogItem = this.dataSrv.formatCatalogItem(
@@ -28,9 +29,8 @@ export class SportsCatalogItemComponent implements OnInit {
   handleCatalogItemSelection() {
 
     if (!this.utilSrv.isNullOrUndefined(this.sportsCatalogItem.id)) {
-      this.onCatalogItemSelected.emit(this.sportsCatalogItem.id);
+      this.router.navigate(['', 'catalog', this.sportsCatalogItem.id]);
     }
-
   }
 
 }

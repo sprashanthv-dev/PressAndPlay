@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
+import { CourtInfo } from "../models/court-info";
 import { LocationInfo } from "../models/location-info";
 import { RegisterForm } from "../models/register-form";
+import { Slot } from "../models/slot";
 import { SportsCatalogItem } from "../models/sports-catalog-item";
 import { UtilService } from "./util.service";
 
@@ -14,42 +16,57 @@ export class DataService {
 
   constructor(private utilSrv: UtilService) { }
 
-  mockCatalogItems: SportsCatalogItem[] = [{
-    id: "1",
-    name: "Lotee Football Stadium",
-    distance: 16,
-    availableSlots: 10,
-    location: "Athens North, Boulder",
-    pricePerHour: 20,
-    rating: 4.5
-  },
-  {
-    id: "2",
-    name: "Rush International Stadium",
-    distance: 25,
-    availableSlots: 15,
-    location: "Pearl Street, Boulder",
-    pricePerHour: 10,
-    rating: 3.8
-  },
-  {
-    id: "3",
-    name: "Javaa Stadium",
-    distance: 10,
-    availableSlots: 5,
-    location: "505 27th Way, Boulder",
-    pricePerHour: 25,
-    rating: 4.3
-  },
-  ]
+  getCatalogDetailedViewMockData(): CourtInfo {
 
-  getMockCatalogItems(): SportsCatalogItem[] {
-    return this.mockCatalogItems;
-  }
+    return {
+      "id": "8463eaf3-fb86-4b16-b075-6d5e95bda4f6",
+      "name": "Let's Play Now",
+      "address": {
+        "line1": "30th Street, Arapahoe Avenue",
+        "line2": "",
+        "city": "Boulder",
+        "state": "Colorado",
+        "country": "United States of America",
+        "pincode": "80301"
+      },
+      "phone": "3034928355",
+      "rating": 5,
+      "availableSlots": [
+        {
+          "slot_id": "1",
+          "time_start_hhmm": 1000,
+          "time_end_hhmm": 1100,
+          "status": 0,
+        },
+        {
+          "slot_id": "2",
+          "time_start_hhmm": 1300,
+          "time_end_hhmm": 1400,
+          "status": 0,
+        },
+        {
+          "slot_id": "3",
+          "time_start_hhmm": 1600,
+          "time_end_hhmm": 1700,
+          "status": 0,
+        },
+        {
+          "slot_id": "4",
+          "time_start_hhmm": 1900,
+          "time_end_hhmm": 2000,
+          "status": 0,
+        }
+      ],
+      "manager_id": "eeb8fb7b-b6df-42c3-ab03-05fbd3bb78df",
+      "image_url": "../../assets/court-1.jpeg"
+    }
+  } 
 
   formatCatalogItem(catalogItem: SportsCatalogItem, characterLimit: number) {
 
     let formattedCatalogItem = { ...catalogItem };
+
+    formattedCatalogItem.distance = Number(formattedCatalogItem.distance?.toFixed(2));
 
     formattedCatalogItem.altName = this.utilSrv.trimStringLength(
       formattedCatalogItem.name, characterLimit);
@@ -58,6 +75,38 @@ export class DataService {
       formattedCatalogItem.location, characterLimit);
 
     return formattedCatalogItem;
+  }
+
+  formatCourtInfoResponse(courtInfo : CourtInfo) {
+
+    console.log('Court info ', courtInfo);
+
+    let formattedCourtInfo = { ...courtInfo };
+
+    formattedCourtInfo['mainLocation'] = `${courtInfo.address.city},
+      ${courtInfo.address.state},
+      ${courtInfo.address.country}, 
+      ${courtInfo.address.pincode}`;
+
+    formattedCourtInfo['formattedAddress'] = `${courtInfo.address.address_line_1} ${courtInfo.address.address_line_2}`;
+    
+    let slots = formattedCourtInfo.availableSlots;
+
+    slots.forEach((slot : Slot) => {
+      
+      let startTime = slot.time_start_hhmm;
+      let endTime = slot.time_end_hhmm;
+      
+      let amOrPm = (endTime / 100 ) < 12 ? "AM" : "PM";
+
+      slot.altTime_start = this.utilSrv.formatTime(startTime);
+      slot.altTime_end = this.utilSrv.formatTime(endTime);      
+
+      slot.timeOfTheDay = amOrPm;
+      slot.selected = slot.booked ? true : false;
+    })
+
+    return formattedCourtInfo;
   }
 
   // parse results from /autocomplete api

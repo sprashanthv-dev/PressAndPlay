@@ -6,13 +6,17 @@
       <p class="m-0 text-center" data-toggle="tooltip" data-placement="top" title="{{ sportsCatalogItem.name }}">
         <strong>{{ sportsCatalogItem?.altName || "-" }}</strong>
       </p>
-      <p class="m-0 text-center" data-toggle="tooltip" data-placement="top" title="{{ sportsCatalogItem.location }}">
+      <p *ngIf="sportsCatalogItem.location" class="m-0 text-center" data-toggle="tooltip" data-placement="top" title="{{ sportsCatalogItem.location }}">
         {{ sportsCatalogItem ?.altLocation || "-" }}
       </p>
-      <div class="d-flex justify-content-between catalog-attributes">
+      <div class="d-flex justify-content-between catalog-attributes flex-wrap">
         <span class="badge text-bg-success">{{ sportsCatalogItem ?.rating }} &#9733;</span>
-        <span class="badge text-bg-warning">{{ sportsCatalogItem ?.distance }} mi</span>
-        <span class="badge text-bg-info">Slots: {{ sportsCatalogItem ?.availableSlots || "-" }}</span>
+        <span class="badge text-bg-warning" *ngIf="sportsCatalogItem.distance !== -1">{{ sportsCatalogItem ?.distance }} mi</span>
+        <span class="badge text-bg-info">Slots: {{ sportsCatalogItem.availableSlotsCount }}</span>
+      </div>
+      <div *ngIf="sportsCatalogItem.sportType" class="m-0 text-center">
+         <span><strong>Sport: </strong></span>
+         <span>{{ sportsCatalogItem.sportType }}</span>
       </div>
     </div>
   </div>

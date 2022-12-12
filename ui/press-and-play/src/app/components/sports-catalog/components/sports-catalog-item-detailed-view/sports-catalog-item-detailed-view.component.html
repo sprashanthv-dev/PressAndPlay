@@ -6,35 +6,40 @@
             <img src="../../../../../assets/court-1.jpeg" height="250px" class="m-auto d-block"/>
         </div>
 
-        <div class="court-view col-md-6">
+        <div class="court-view col-md-6" *ngIf="isFetched">
 
             <div class="row mt-2">
-                <h2 class="text-center">Basketball Court</h2>
-                <h6 class="text-muted text-center">Boulder, United States</h6>
+                <h2 class="text-center"> {{ courtDetails.name }} </h2>
+                <h6 class="text-muted text-center"> {{ courtDetails.mainLocation }} </h6>
 
                 <div class="court-details">
 
                     <div class="address mb-2">
                         <span>Address:</span>
-                        <span>1234, Pleasant Street, Boulder</span>
-                    </div>
-
-                    <div class="lat-long">
-                        <span>Coordinates:</span>
-                        <span>39.9980, -105.2605</span>
+                        <span>{{ courtDetails.formattedAddress }}</span>
                     </div>
 
                     <div class="phone">
                         <span>Phone:</span>
-                        <span>345-828-9239</span>
+                        <span>{{ courtDetails.phone }}</span>
                     </div>
 
-                    <div class="rating mb-3">
-                        <span>Rating: </span>
+                    <div class="current-rating mb-3">
+                        <span>Current Rating: </span>
                         <span>
-                            <ngb-rating [(rate)]="rating" (rateChange)="setRating()" [max]="5">
+                            <ngb-rating [(rate)]="courtDetails.rating" [max]="5">
                             </ngb-rating>
                         </span>
+                    </div>
+
+                    <div class="user-rating mb-3">
+                        <span>Your Rating: </span>
+                        <span>
+                            <ngb-rating [(rate)]="userRating" (rateChange)="handleUserRating()" [max]="5">
+                            </ngb-rating>
+                        </span>
+                        <!-- <ngb-rating [(rate)]="rating" (rateChange)="setRating()" [max]="5">
+                        </ngb-rating> -->
                     </div>
 
                     <div class="slots">
@@ -44,14 +49,13 @@
                             <mat-chip *ngFor="let slot of slots" 
                                 [selected]="slot.selected" 
                                 (click)="handleSlotSelection(slot)">
-                                {{ slot.time }}
+                                {{ slot.altTime_start }} - {{ slot.altTime_end }} {{ slot.timeOfTheDay }}
                             </mat-chip>
-                            <!-- <mat-chip [selected]="state1" (selectionChange)="handleSlotSelection($event)">9:00 AM - 10:00 AM </mat-chip> -->
                         </mat-chip-list>
                     </div>
                 </div>
 
-                <div class="mt-3 d-flex justify-content-center">
+                <div class="mt-3 d-flex justify-content-center" *ngIf="isLoggedIn">
                     <button type="submit" class="btn btn-warning">Book Slot</button>
                 </div>
             </div>

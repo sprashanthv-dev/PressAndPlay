@@ -1,10 +1,10 @@
-section .title {
+section .title, .no-data {
   font-size: 2rem;
 }
 
 @media screen and (max-width : 908px) {
   
-  section .title {
+  section .title, .no-data {
     font-size: 1.5rem;
   }
 
@@ -14,13 +14,19 @@ section .title {
 }
 
 @media screen and (max-width : 658px) {
-  section .title {
+  section .title, .no-data {
     font-size: 1.3rem;
   }
 }
 
+@media screen and (max-width : 525px) {
+  .no-data {
+    font-size: 1.1rem;
+  }
+}
+
 @media screen and (max-width: 500px) {
-  section .title {
+  section .title  {
     font-size: 1.1rem;
   }
 }

@@ -6,7 +6,9 @@ const apiMapping = {
   "REVERSE_API": "reverse",
   "CREATE_USER": "user/create",
   "LOGIN_USER": "user/login",
-  "GET_USER": "user"
+  "GET_USER": "user",
+  "GET_COURT_LIST" : "court",
+  "GET_COURT_DETAILS_BY_ID" : "court"
 }
 
 const catalogItemConstants = {
@@ -44,7 +46,7 @@ const toastrTypes = {
   ERROR : 'error'
 }
 
-const excludedUrls = ["login", "create", "reverse", "autocomplete"]
+const excludedUrls = ["login", "create", "reverse", "autocomplete", "court"]
 
 export const PRESS_AND_PLAY_CONSTANTS = {
   API_MAPPING : apiMapping,

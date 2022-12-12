@@ -3,12 +3,19 @@
   <p class="text-center my-2 title"> {{headerLocation}} </p>
   <div class="card">
     <div class="card-body d-flex flex-wrap">
-      <ng-container *ngFor="let catalogItem of sportsCatalogList">
-        <app-sports-catalog-item 
-          [sportsCatalogItem]="catalogItem"
-          (onCatalogItemSelected)="handleCatalogSelection($event)">
-        </app-sports-catalog-item>
+
+      <ng-container *ngIf="sportsCatalogList">
+        <ng-container *ngFor="let catalogItem of sportsCatalogList">
+          <app-sports-catalog-item 
+            [sportsCatalogItem]="catalogItem">
+          </app-sports-catalog-item>
+        </ng-container>
       </ng-container>
+
+      <ng-container *ngIf="!sportsCatalogList">
+        <p class="m-auto no-data">No Sporting centers found. Please check back later</p>
+      </ng-container>
+  
     </div>
   </div>
 </section>

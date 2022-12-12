@@ -3,11 +3,12 @@ export interface SportsCatalogItem {
   name? : string;
   altName?: string;
   distance? : number;
-  availableSlots? : number;
+  availableSlotsCount? : number;
   location? : string;
   altLocation?: string;
   pricePerHour? : number;
   rating? : number;
   imageUrl?: string;
+  sportType ?: string;
 }
 
