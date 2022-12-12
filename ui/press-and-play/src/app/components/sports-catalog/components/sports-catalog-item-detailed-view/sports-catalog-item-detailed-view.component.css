@@ -26,6 +26,10 @@ div.slots .chips {
     margin: 10px auto 5px auto;
 }
 
+.each-chip[disabled] {
+    pointer-events:none;
+}
+
 .court-details > div {
     margin: 10px 0px;
 }

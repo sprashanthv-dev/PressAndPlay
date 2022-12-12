@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { StorageService } from '../services/storage-service';
 import { UtilService } from '../services/util.service';
 import { PRESS_AND_PLAY_CONSTANTS } from '../constants/proj.cnst';
+import { AppStateService } from '../services/app-state.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -19,6 +20,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     private router : Router,
     private storageSrv : StorageService,
+    private appStateSrv : AppStateService,
     private utilSrv :  UtilService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler)
@@ -39,6 +41,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             TOASTR_TYPES.SUCCESS);
 
           this.storageSrv.clearStorage();
+          this.appStateSrv.setUserLoginStatus(false);
 
           setTimeout(() => this.router.navigate(['', 'catalog']), 2000);
         }

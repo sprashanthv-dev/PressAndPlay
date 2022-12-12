@@ -8,7 +8,8 @@ const apiMapping = {
   "LOGIN_USER": "user/login",
   "GET_USER": "user",
   "GET_COURT_LIST" : "court",
-  "GET_COURT_DETAILS_BY_ID" : "court"
+  "GET_COURT_DETAILS_BY_ID" : "court",
+  "BOOK_SLOT_FOR_COURT": "book"
 }
 
 const catalogItemConstants = {

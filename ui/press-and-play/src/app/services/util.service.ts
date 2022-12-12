@@ -83,7 +83,7 @@ export class UtilService {
 
     for (let excludedUrl of excludedUrls) {
 
-      if (url.includes(excludedUrl)) {
+      if (url.includes(excludedUrl) && !url.includes("book")) {
         return true;
       }
     }
@@ -105,8 +105,6 @@ export class UtilService {
     } else {
       requestUrl = `${baseUrl}${ports.events}${apiSuffix}`;
     }
-
-    console.log(requestUrl);
 
     return requestUrl;
   }

@@ -19,10 +19,19 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   userRating: any;
 
   slots: any[] = [];
-  prevSlotId: string | null = null;
+
+  selectedSlot : Slot = {
+    slot_id: null,
+    time_start_hhmm: 0,
+    time_end_hhmm: 0,
+    status: 0
+  };
 
   courtId: string | null = null;
+
   serviceTypes: any = {};
+  appMessages : any = {};
+  toastrType : any = {};
 
   courtDetails!: CourtInfo;
   isFetched : boolean = false;
@@ -38,6 +47,8 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   ngOnInit(): void {
 
     this.serviceTypes = PRESS_AND_PLAY_CONSTANTS.SERVICE_TYPES;
+    this.appMessages = PRESS_AND_PLAY_CONSTANTS.APP_MESSAGES.BOOKING_SLOT_MESSAGES;
+    this.toastrType = PRESS_AND_PLAY_CONSTANTS.TOASTR_TYPES;
 
     this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
       this.isLoggedIn = val;
@@ -89,17 +100,51 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
 
     this.slots.forEach((slot: Slot) => {
 
-      if (slot.selected) {
+      console.log("Slot id ", slot.slot_id);
+      console.log("Is slot booked ", slot.booked);
+      console.log('----------------------------');
+
+      if (slot.selected && !slot.booked) {
         slot.selected = false;
       }
     })
 
+    console.log(this.slots);
+
     let selectedSlotIndex = this.slots.findIndex((eachSlot: Slot) => eachSlot.slot_id === slot.slot_id);
     let slotInfo: Slot = this.slots[selectedSlotIndex];
 
-    this.slots[selectedSlotIndex] = {
-      ...slotInfo,
-      selected: !slotInfo.selected
-    }
+    if (!slot.booked) {
+      this.slots[selectedSlotIndex] = {
+        ...slotInfo,
+        selected: !slotInfo.selected
+      }
+  
+      this.selectedSlot = {...slotInfo };
+    } 
+
+    console.log(this.selectedSlot);
+  }
+
+  handleSlotBooking() {
+
+    let baseUrl = this.utilSrv.buildRequestBaseUrl(this.serviceTypes.COURT);
+
+    baseUrl = `${baseUrl}court/${this.courtId}/slot/${this.selectedSlot.slot_id}/`;
+
+    console.log(baseUrl);
+
+    this.httpSrv
+      .makePostApiCall("BOOK_SLOT_FOR_COURT", baseUrl, {})
+      .subscribe({
+        next : (response : any) => {
+          this.utilSrv.showToastMessage(this.appMessages.SUCCESS, this.toastrType.SUCCESS);
+          this.fetchCourtDetailsById();
+        }, 
+        error : (err : any) => {
+          console.log('Error ', err);
+          this.utilSrv.showToastMessage(this.appMessages.ERROR, this.toastrType.ERROR);
+        }
+      })
   }
 }

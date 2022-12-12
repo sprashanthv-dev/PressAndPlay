@@ -17,10 +17,16 @@ const SESSION_MESSAGES = {
   EXPIRED : "Your session has expired. Please login again."
 }
 
+const BOOKING_SLOT_MESSAGES = {
+  SUCCESS : "Slot booked successfully",
+  ERROR : "Error occured while booking slot. Please try again"
+}
+
 export const ALL_MESSAGES = {
   REGISTER_MESSAGES,
   LOGIN_MESSAGES,
   LOGOUT_MESSAGES,
-  SESSION_MESSAGES
+  SESSION_MESSAGES,
+  BOOKING_SLOT_MESSAGES
 }
 
