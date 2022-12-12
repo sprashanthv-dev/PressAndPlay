@@ -26,20 +26,15 @@
 
                     <div class="current-rating mb-3">
                         <span>Current Rating: </span>
-                        <span>
-                            <ngb-rating [(rate)]="courtDetails.rating" [max]="5">
-                            </ngb-rating>
-                        </span>
+                        <span>{{ courtDetails.rating | number : '1.2-2' }}</span>
                     </div>
 
-                    <div class="user-rating mb-3">
+                    <div class="user-rating mb-3" *ngIf="isLoggedIn">
                         <span>Your Rating: </span>
                         <span>
                             <ngb-rating [(rate)]="userRating" (rateChange)="handleUserRating()" [max]="5">
                             </ngb-rating>
                         </span>
-                        <!-- <ngb-rating [(rate)]="rating" (rateChange)="setRating()" [max]="5">
-                        </ngb-rating> -->
                     </div>
 
                     <div class="slots">

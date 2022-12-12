@@ -16,57 +16,12 @@ export class DataService {
 
   constructor(private utilSrv: UtilService) { }
 
-  getCatalogDetailedViewMockData(): CourtInfo {
-
-    return {
-      "id": "8463eaf3-fb86-4b16-b075-6d5e95bda4f6",
-      "name": "Let's Play Now",
-      "address": {
-        "line1": "30th Street, Arapahoe Avenue",
-        "line2": "",
-        "city": "Boulder",
-        "state": "Colorado",
-        "country": "United States of America",
-        "pincode": "80301"
-      },
-      "phone": "3034928355",
-      "rating": 5,
-      "availableSlots": [
-        {
-          "slot_id": "1",
-          "time_start_hhmm": 1000,
-          "time_end_hhmm": 1100,
-          "status": 0,
-        },
-        {
-          "slot_id": "2",
-          "time_start_hhmm": 1300,
-          "time_end_hhmm": 1400,
-          "status": 0,
-        },
-        {
-          "slot_id": "3",
-          "time_start_hhmm": 1600,
-          "time_end_hhmm": 1700,
-          "status": 0,
-        },
-        {
-          "slot_id": "4",
-          "time_start_hhmm": 1900,
-          "time_end_hhmm": 2000,
-          "status": 0,
-        }
-      ],
-      "manager_id": "eeb8fb7b-b6df-42c3-ab03-05fbd3bb78df",
-      "image_url": "../../assets/court-1.jpeg"
-    }
-  } 
-
   formatCatalogItem(catalogItem: SportsCatalogItem, characterLimit: number) {
 
     let formattedCatalogItem = { ...catalogItem };
 
     formattedCatalogItem.distance = Number(formattedCatalogItem.distance?.toFixed(2));
+    formattedCatalogItem.rating = Number(formattedCatalogItem.rating?.toFixed(2));
 
     formattedCatalogItem.altName = this.utilSrv.trimStringLength(
       formattedCatalogItem.name, characterLimit);
@@ -78,8 +33,6 @@ export class DataService {
   }
 
   formatCourtInfoResponse(courtInfo : CourtInfo) {
-
-    console.log('Court info ', courtInfo);
 
     let formattedCourtInfo = { ...courtInfo };
 

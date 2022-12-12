@@ -9,7 +9,8 @@ const apiMapping = {
   "GET_USER": "user",
   "GET_COURT_LIST" : "court",
   "GET_COURT_DETAILS_BY_ID" : "court",
-  "BOOK_SLOT_FOR_COURT": "book"
+  "BOOK_SLOT_FOR_COURT": "book",
+  "RATE_COURT": "rating"
 }
 
 const catalogItemConstants = {

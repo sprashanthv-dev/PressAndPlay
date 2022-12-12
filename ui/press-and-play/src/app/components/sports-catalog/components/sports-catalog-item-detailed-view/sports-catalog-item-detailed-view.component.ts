@@ -16,7 +16,7 @@ import { UtilService } from 'src/app/services/util.service';
 export class SportsCatalogItemDetailedViewComponent implements OnInit {
 
   currentRating: any;
-  userRating: any;
+  userRating: any = null;
 
   slots: any[] = [];
 
@@ -28,6 +28,7 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   };
 
   courtId: string | null = null;
+  isRatingForFirstTime : boolean | null = null;
 
   serviceTypes: any = {};
   appMessages : any = {};
@@ -47,7 +48,7 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   ngOnInit(): void {
 
     this.serviceTypes = PRESS_AND_PLAY_CONSTANTS.SERVICE_TYPES;
-    this.appMessages = PRESS_AND_PLAY_CONSTANTS.APP_MESSAGES.BOOKING_SLOT_MESSAGES;
+    this.appMessages = PRESS_AND_PLAY_CONSTANTS.APP_MESSAGES;
     this.toastrType = PRESS_AND_PLAY_CONSTANTS.TOASTR_TYPES;
 
     this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
@@ -88,8 +89,32 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   }
 
   handleUserRating() {
-    // call rating API
-    console.log(this.userRating)
+
+    if (this.isRatingForFirstTime) {
+
+      let baseUrl = this.utilSrv.buildRequestBaseUrl(this.serviceTypes.COURT);
+      baseUrl = `${baseUrl}court/${this.courtId}/`;
+
+      let postData = {
+        rating: this.userRating
+      }
+
+      this.httpSrv
+        .makePostApiCall("RATE_COURT", baseUrl, postData)
+        .subscribe({
+          next : (response : any) => {
+            this.courtDetails = response;
+            this.utilSrv.showToastMessage(this.appMessages.RATING_MESSAGES.SUCCESS, this.toastrType.SUCCESS);
+            this.userRating = 0;
+          }, error : (err : any) => {
+            this.utilSrv.showToastMessage(this.appMessages.RATING_MESSAGES.ERROR, this.toastrType.ERROR);
+          }
+        })
+    } else {
+      console.log("Initial load");
+
+      this.isRatingForFirstTime = true;
+    }
 
   }
 
@@ -100,16 +125,10 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
 
     this.slots.forEach((slot: Slot) => {
 
-      console.log("Slot id ", slot.slot_id);
-      console.log("Is slot booked ", slot.booked);
-      console.log('----------------------------');
-
       if (slot.selected && !slot.booked) {
         slot.selected = false;
       }
     })
-
-    console.log(this.slots);
 
     let selectedSlotIndex = this.slots.findIndex((eachSlot: Slot) => eachSlot.slot_id === slot.slot_id);
     let slotInfo: Slot = this.slots[selectedSlotIndex];
@@ -122,8 +141,6 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   
       this.selectedSlot = {...slotInfo };
     } 
-
-    console.log(this.selectedSlot);
   }
 
   handleSlotBooking() {
@@ -132,18 +149,16 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
 
     baseUrl = `${baseUrl}court/${this.courtId}/slot/${this.selectedSlot.slot_id}/`;
 
-    console.log(baseUrl);
-
     this.httpSrv
       .makePostApiCall("BOOK_SLOT_FOR_COURT", baseUrl, {})
       .subscribe({
         next : (response : any) => {
-          this.utilSrv.showToastMessage(this.appMessages.SUCCESS, this.toastrType.SUCCESS);
+          this.utilSrv.showToastMessage(this.appMessages.BOOKING_SLOT_MESSAGES.SUCCESS, this.toastrType.SUCCESS);
           this.fetchCourtDetailsById();
         }, 
         error : (err : any) => {
           console.log('Error ', err);
-          this.utilSrv.showToastMessage(this.appMessages.ERROR, this.toastrType.ERROR);
+          this.utilSrv.showToastMessage(this.appMessages.BOOKING_SLOT_MESSAGES.ERROR, this.toastrType.ERROR);
         }
       })
   }

@@ -22,11 +22,17 @@ const BOOKING_SLOT_MESSAGES = {
   ERROR : "Error occured while booking slot. Please try again"
 }
 
+const RATING_MESSAGES = {
+  SUCCESS : "Updated rating successfully",
+  ERROR : "Error occured during rating. Please try again"
+}
+
 export const ALL_MESSAGES = {
   REGISTER_MESSAGES,
   LOGIN_MESSAGES,
   LOGOUT_MESSAGES,
   SESSION_MESSAGES,
-  BOOKING_SLOT_MESSAGES
+  BOOKING_SLOT_MESSAGES,
+  RATING_MESSAGES
 }
 

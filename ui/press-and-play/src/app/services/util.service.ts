@@ -83,7 +83,7 @@ export class UtilService {
 
     for (let excludedUrl of excludedUrls) {
 
-      if (url.includes(excludedUrl) && !url.includes("book")) {
+      if (url.includes(excludedUrl) && !url.includes("book") && !url.includes("rating")) {
         return true;
       }
     }
