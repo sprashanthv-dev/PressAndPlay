@@ -9,6 +9,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { UtilService } from 'src/app/services/util.service';
 
 import { Subject, Subscription } from 'rxjs';
+import { StorageService } from 'src/app/services/storage-service';
 
 @Component({
   selector: 'app-sports-catalog-item-detailed-view',
@@ -37,9 +38,11 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit, OnDestroy
   appMessages : any = {};
   toastrType : any = {};
 
+
   courtDetails!: CourtInfo;
   isFetched : boolean = false;
   isLoggedIn : boolean = false;
+  currentRole : string | null = null;
 
   userLoginStatusRef : any;
 
@@ -48,7 +51,8 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit, OnDestroy
     private route: ActivatedRoute,
     private utilSrv: UtilService,
     private appStateSrv : AppStateService,
-    private dataSrv: DataService) { }
+    private dataSrv: DataService,
+    private storageSrv : StorageService) { }
 
   ngOnInit(): void {
 
@@ -58,6 +62,13 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit, OnDestroy
 
     this.userLoginStatusRef = this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
       this.isLoggedIn = val;
+
+      let userInfo = this.storageSrv.getValue('userInfo');
+
+      if (!this.utilSrv.isNullOrUndefined(userInfo)) {
+        let { role } = userInfo;
+        this.currentRole = role;
+      }
     })
 
     this.route.params.subscribe((params: Params) => {

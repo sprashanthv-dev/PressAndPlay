@@ -29,7 +29,7 @@
                         <span>{{ courtDetails.rating | number : '1.2-2' }}</span>
                     </div>
 
-                    <div class="user-rating mb-3" *ngIf="isLoggedIn">
+                    <div class="user-rating mb-3" *ngIf="isLoggedIn && currentRole !== 'manager'">
                         <span>Your Rating: </span>
                         <span>
                             <ngb-rating [(rate)]="userRating" (rateChange)="handleUserRating()" [max]="5">
@@ -37,7 +37,7 @@
                         </span>
                     </div>
 
-                    <div class="slots">
+                    <div class="slots" *ngIf="currentRole !== 'manager'">
                         <span>Available Slots: </span>
                         
                         <mat-chip-list class="chips" multiple="false">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="mt-3 d-flex justify-content-center" *ngIf="isLoggedIn">
+                <div class="mt-3 d-flex justify-content-center" *ngIf="isLoggedIn && currentRole !== 'manager'">
                     <button type="submit" class="btn btn-warning" (click)="handleSlotBooking()" [disabled]="!selectedSlot.slot_id">Book Slot</button>
                 </div>
             </div>
