@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   localStorageDetails : any = {};
   toastrType : any = {};
   serviceTypes : any =  {};
+  userRoles : any = {};
 
   constructor(
     private modalRef: NgbActiveModal,
@@ -45,7 +46,8 @@ export class LoginComponent implements OnInit {
       LOCAL_STORAGE_DETAILS,
       APP_MESSAGES,
       TOASTR_TYPES,
-      SERVICE_TYPES
+      SERVICE_TYPES,
+      USER_ROLES
     } = PRESS_AND_PLAY_CONSTANTS;
 
     this.baseUrl = BASE_URL;
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit {
     this.toastrType = TOASTR_TYPES
     this.localStorageDetails = LOCAL_STORAGE_DETAILS;
     this.serviceTypes = SERVICE_TYPES;
+    this.userRoles = USER_ROLES;
   }
 
   handleLogin(
@@ -69,12 +72,18 @@ export class LoginComponent implements OnInit {
           next: (val: HttpResponse<any>) => {
 
             let session_id = val.headers.get('User-Session-Id');
-            let {id} = val.body;
+
+            let { id, firstName, lastName, role } = val.body;
+
+            let roleName = role === 0 ? this.userRoles.CUSTOMER : this.userRoles.MANAGER;
 
             details.userId = id
             details.userSessionId = session_id
             
             this.storageSrv.setValue(key, details);
+
+            let userInfo = { name : `${firstName} ${lastName}`, role : roleName };
+            this.storageSrv.setValue('userInfo', userInfo);
             this.appStateSrv.setUserLoginStatus(true);
 
             this.utilSrv.showToastMessage(this.loginMessages.SUCCESS, this.toastrType.SUCCESS)

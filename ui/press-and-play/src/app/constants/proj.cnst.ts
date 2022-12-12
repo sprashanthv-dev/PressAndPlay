@@ -40,12 +40,18 @@ const localStorageDetails = {
 
 const catalogListHeader = {
   DEFAULT: "Available Sporting Centers",
-  LOCATION: "Sporting centers near "
+  LOCATION: "Sporting centers near ",
+  MANAGER : "Sporting centers managed by "
 }
 
 const toastrTypes = {
   SUCCESS : 'success',
   ERROR : 'error'
+}
+
+const userRoles = {
+  "CUSTOMER" : "customer",
+  "MANAGER" : "manager"
 }
 
 const excludedUrls = ["login", "create", "reverse", "autocomplete", "court"]
@@ -61,5 +67,6 @@ export const PRESS_AND_PLAY_CONSTANTS = {
   APP_MESSAGES : ALL_MESSAGES,
   EXCLUDED_URLS : excludedUrls,
   SERVICE_TYPES : serviceTypes,
-  CATALOG_LIST_HEADER : catalogListHeader
+  CATALOG_LIST_HEADER : catalogListHeader,
+  USER_ROLES : userRoles
 }

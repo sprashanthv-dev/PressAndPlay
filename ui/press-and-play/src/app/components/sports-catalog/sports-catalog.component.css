@@ -11,9 +11,14 @@ section .title, .no-data {
   .card .card-body {
     justify-content: center;
   }
+
+  .button-container {
+    justify-content: center !important;
+  }
 }
 
 @media screen and (max-width : 658px) {
+
   section .title, .no-data {
     font-size: 1.3rem;
   }

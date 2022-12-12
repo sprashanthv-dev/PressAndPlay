@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
 import { CourtInfo } from 'src/app/models/court-info';
@@ -8,12 +8,14 @@ import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
 import { UtilService } from 'src/app/services/util.service';
 
+import { Subject, Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-sports-catalog-item-detailed-view',
   templateUrl: './sports-catalog-item-detailed-view.component.html',
   styleUrls: ['./sports-catalog-item-detailed-view.component.css']
 })
-export class SportsCatalogItemDetailedViewComponent implements OnInit {
+export class SportsCatalogItemDetailedViewComponent implements OnInit, OnDestroy {
 
   currentRating: any;
   userRating: any = null;
@@ -29,6 +31,7 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
 
   courtId: string | null = null;
   isRatingForFirstTime : boolean | null = null;
+  subscriptions : Subscription[] = [];
 
   serviceTypes: any = {};
   appMessages : any = {};
@@ -37,6 +40,8 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
   courtDetails!: CourtInfo;
   isFetched : boolean = false;
   isLoggedIn : boolean = false;
+
+  userLoginStatusRef : any;
 
   constructor(
     private httpSrv: HttpService,
@@ -51,7 +56,7 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
     this.appMessages = PRESS_AND_PLAY_CONSTANTS.APP_MESSAGES;
     this.toastrType = PRESS_AND_PLAY_CONSTANTS.TOASTR_TYPES;
 
-    this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
+    this.userLoginStatusRef = this.appStateSrv.userLoginStatus.subscribe((val: boolean) => {
       this.isLoggedIn = val;
     })
 
@@ -59,6 +64,12 @@ export class SportsCatalogItemDetailedViewComponent implements OnInit {
       this.courtId = params['id'];
       this.fetchCourtDetailsById();
     })
+
+    this.subscriptions.push(this.userLoginStatusRef);
+  }
+
+  ngOnDestroy() : void {
+    this.subscriptions.forEach((subscription : Subscription) => subscription.unsubscribe());
   }
 
   fetchCourtDetailsById() {

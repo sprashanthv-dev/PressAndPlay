@@ -109,6 +109,7 @@ export class HeaderComponent implements OnInit {
 
   //TODO: Call logout api to terminate current session at backend
   handleLogout() {
+
     this.storageSrv.clearStorage();
     this.utilSrv.showToastMessage(this.logoutMessages.SUCCESS, this.toastrTypes.SUCCESS);
 

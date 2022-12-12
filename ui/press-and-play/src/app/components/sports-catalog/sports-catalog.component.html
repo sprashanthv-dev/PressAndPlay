@@ -1,6 +1,10 @@
 <section class="container-fluid my-2">
-  <!-- Update location name here -->
   <p class="text-center my-2 title"> {{headerLocation}} </p>
+
+  <div class="button-container d-flex justify-content-end mb-2" *ngIf="currentRole === 'manager'">
+    <button type="button" class="btn btn-primary">Add Court</button>
+  </div>
+
   <div class="card">
     <div class="card-body d-flex flex-wrap">
 

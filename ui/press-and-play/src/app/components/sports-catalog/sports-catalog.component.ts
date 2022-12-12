@@ -7,6 +7,7 @@ import { SportsCatalogItem } from 'src/app/models/sports-catalog-item';
 
 import { AppStateService } from 'src/app/services/app-state.service';
 import { HttpService } from 'src/app/services/http.service';
+import { StorageService } from 'src/app/services/storage-service';
 import { UtilService } from 'src/app/services/util.service';
 
 @Component({
@@ -19,15 +20,22 @@ export class SportsCatalogComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = []
   locationRef: any;
 
+  userLoginStatusRef : any;
+
   headerTitle = PRESS_AND_PLAY_CONSTANTS.CATALOG_LIST_HEADER;
   headerLocation: string = this.headerTitle.DEFAULT;
+  userRoles : any = {};
 
   latitude: string | null = null;
   longitude: string | null = null;
 
+  isLoggedIn : boolean = false;
+  currentRole : string | null = null;
+
   constructor(
     private utilService: UtilService,
     private appStateService: AppStateService,
+    private storageSrv : StorageService,
     private httpSrv: HttpService) { }
 
   ngOnDestroy(): void {
@@ -38,6 +46,27 @@ export class SportsCatalogComponent implements OnInit, OnDestroy {
   serviceTypes: any = {};
 
   ngOnInit(): void {
+
+    this.userRoles = PRESS_AND_PLAY_CONSTANTS.USER_ROLES;
+
+    this.userLoginStatusRef = this.appStateService.userLoginStatus.subscribe((status : boolean) => {
+      this.isLoggedIn = status;
+
+      if (this.isLoggedIn) {
+          
+          let userInfo = this.storageSrv.getValue('userInfo');
+          let { name, role } = userInfo;
+
+          this.currentRole = role;
+
+          if (this.currentRole === this.userRoles.MANAGER) {
+            this.headerLocation = `${this.headerTitle.MANAGER} ${name}`
+          }
+      } else {
+        this.headerLocation = this.headerTitle.DEFAULT;
+        this.currentRole = null;
+      }
+    })
 
     this.serviceTypes = PRESS_AND_PLAY_CONSTANTS.SERVICE_TYPES;
 
@@ -57,9 +86,9 @@ export class SportsCatalogComponent implements OnInit, OnDestroy {
       })
 
     this.subscriptions.push(this.locationRef);
+    this.subscriptions.push(this.userLoginStatusRef);
   }
 
-  //TODO : Integrate get catalog items REST API
   fetchAllCatalogItems() {
     let baseUrl = this.utilService.buildRequestBaseUrl(this.serviceTypes.COURT);
 
@@ -81,7 +110,6 @@ export class SportsCatalogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: any) => {
           this.sportsCatalogList = response;
-          console.log("Response ", response);
         }, error: (err: any) => {
           console.log("Error ", err);
         }
