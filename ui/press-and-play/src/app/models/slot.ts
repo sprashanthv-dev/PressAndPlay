@@ -4,7 +4,7 @@ export interface Slot {
   altTime_start? : string;
   time_end_hhmm : number;
   altTime_end? : string;
-  status : number;
+  status? : number;
   selected? : boolean;
   timeOfTheDay ?: string;
   booked? : boolean;

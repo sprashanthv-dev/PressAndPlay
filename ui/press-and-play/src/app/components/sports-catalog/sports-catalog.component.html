@@ -2,7 +2,7 @@
   <p class="text-center my-2 title"> {{headerLocation}} </p>
 
   <div class="button-container d-flex justify-content-end mb-2" *ngIf="currentRole === 'manager'">
-    <button type="button" class="btn btn-primary">Add Court</button>
+    <button type="button" class="btn btn-primary" (click)="handleCourtAdd()">Add Court</button>
   </div>
 
   <div class="card">

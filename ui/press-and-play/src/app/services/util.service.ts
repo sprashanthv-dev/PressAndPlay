@@ -1,5 +1,6 @@
 import { HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Address } from "../models/address";
 import { ToastrService } from "ngx-toastr";
 import { environment } from "src/environments/environment";
 import { PRESS_AND_PLAY_CONSTANTS } from "../constants/proj.cnst";
@@ -83,7 +84,10 @@ export class UtilService {
 
     for (let excludedUrl of excludedUrls) {
 
-      if (url.includes(excludedUrl) && !url.includes("book") && !url.includes("rating")) {
+      if (url.includes(excludedUrl) &&
+        !url.includes("book") &&
+        !url.includes("rating") &&
+        !url.includes("court/create")) {
         return true;
       }
     }
@@ -115,5 +119,20 @@ export class UtilService {
     let minutes = time % 100;
 
     return `${hours}:${minutes}0`;
+  }
+
+  buildTime(hour : number) {
+    return hour * 100;
+  }
+
+  buildFullAddress(address : Address) {
+
+    let { line1, line2, country, state, pincode, city } = address;
+
+    if (line2 !== ' ') {
+      return `${line1},${line2},${city},${state},${country},${pincode}`;
+    } else {
+      return `${line1},${city},${state},${country},${pincode}`;
+    }
   }
 }

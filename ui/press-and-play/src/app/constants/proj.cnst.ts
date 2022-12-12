@@ -4,13 +4,15 @@ import { ALL_MESSAGES } from "./messages.cnst";
 const apiMapping = {
   "AUTOCOMPLETE_API": "autocomplete",
   "REVERSE_API": "reverse",
+  "GEOCODE_ADDRESS": "search",
   "CREATE_USER": "user/create",
   "LOGIN_USER": "user/login",
   "GET_USER": "user",
   "GET_COURT_LIST" : "court",
   "GET_COURT_DETAILS_BY_ID" : "court",
   "BOOK_SLOT_FOR_COURT": "book",
-  "RATE_COURT": "rating"
+  "RATE_COURT": "rating",
+  "CREATE_COURT": "court/create"
 }
 
 const catalogItemConstants = {
@@ -54,7 +56,7 @@ const userRoles = {
   "MANAGER" : "manager"
 }
 
-const excludedUrls = ["login", "create", "reverse", "autocomplete", "court"]
+const excludedUrls = ["login", "create", "reverse", "autocomplete", "court", "search"]
 
 export const PRESS_AND_PLAY_CONSTANTS = {
   API_MAPPING : apiMapping,

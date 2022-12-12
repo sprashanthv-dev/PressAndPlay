@@ -1,0 +1,191 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title" id="modal-basic-title">Add Sporting Center</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="closeModal(false)"></button>
+</div>
+<div class="modal-body">
+
+  <form #courtForm="ngForm" (ngSubmit)="handleAddCourt(addCourtForm)">
+
+    <!-- Email and Password -->
+    <div class="row">
+
+      <div class="col-12 mb-3">
+
+        <label for="name" class="form-label">Sporting Center Name</label>
+        <span class="text-danger">*</span>
+
+        <input type="text" class="form-control" id="name" name="sportingname" placeholder="Enter sporting center name"
+          required [(ngModel)]="addCourtForm!.name" #centerName="ngModel">
+
+        <!-- Validation - Name -->
+        <div *ngIf="centerName.invalid && (centerName.dirty || centerName.touched)" class="error-message">
+          <span *ngIf="centerName.errors?.['required']" class="text-danger">
+            *Name is required.
+          </span>
+          <span *ngIf="!centerName.errors?.['required']" class="text-danger">
+            *Please enter a valid name.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="row">
+      <div class="col-lg-6 col-xs-12 mb-3">
+        <label for="line1" class="form-label">Address Line 1</label>
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" name="line1" [(ngModel)]="addCourtForm.address!.line1" id="line1"
+          placeholder="Address Line 1" #line1="ngModel" required>
+
+        <!-- Validation - Address Line 1 -->
+        <div *ngIf="line1.invalid && (line1.dirty || line1.touched)" class="error-message">
+          <span *ngIf="line1.errors?.['required']" class="text-danger">
+            *Address Line 1 is required.
+          </span>
+        </div>
+
+      </div>
+      <div class="col-lg-6 col-xs-12 mb-3">
+        <label for="line2" class="form-label">Address Line 2</label>
+        <input type="text" class="form-control" name="line2" id="line2" [(ngModel)]="addCourtForm.address!.line2"
+          placeholder="Address Line 2">
+      </div>
+    </div>
+
+    <!-- City, State, Country, Pincode -->
+    <div class="row">
+      <div class="col-lg-3 col-md-6 mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="Country" value="United States" disabled>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-3">
+        <label for="state" class="form-label">State</label>
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="addCourtForm.address!.state" name="state" id="state"
+          placeholder="Enter state" #state="ngModel" required>
+
+        <!-- Validation - State -->
+        <div *ngIf="state.invalid && (state.dirty || state.touched)" class="error-message">
+          <span *ngIf="state.errors?.['required']" class="text-danger" required>
+            *State is required.
+          </span>
+        </div>
+
+
+      </div>
+      <div class="col-lg-3 col-md-6 mb-3">
+        <label for="city" class="form-label">City</label>
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="addCourtForm.address!.city" name="city" id="city"
+          placeholder="Enter city" #city="ngModel">
+
+        <!-- Validation - City -->
+        <div *ngIf="city.invalid && (city.dirty || city.touched)" class="error-message">
+          <span *ngIf="city.errors?.['required']" class="text-danger" required>
+            *City is required.
+          </span>
+        </div>
+
+      </div>
+      <div class="col-lg-3 col-md-6 mb-3">
+        <label for="pincode" class="form-label">Pincode</label>
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="addCourtForm.address!.pincode" name="pincode" id="pincode"
+          placeholder="Enter pincode" #pincode="ngModel" required>
+
+        <!-- Validation - Pincode -->
+        <div *ngIf="pincode.invalid && (pincode.dirty || pincode.touched)" class="error-message">
+          <span *ngIf="pincode.errors?.['required']" class="text-danger">
+            *Pincode is required.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timepicker -->
+    <div class="row">
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="firstSlotStart" class="form-label">Slot 1 Start Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot1Start" id="firstSlotStart" required name="firstSlotStart"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="firstSlotEnd" class="form-label">Slot 1 End Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot1End" id="firstSlotEnd" required name="firstSlotEnd"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="secondSlotStart" class="form-label">Slot 2 Start Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot2Start" id="secondSlotStart" required name="secondSlotStart"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="secondSlotEnd" class="form-label">Slot 2 End Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot2End" id="secondSlotEnd" required name="secondSlotEnd"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="thirdSlotStart" class="form-label">Slot 3 Start Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot3Start" id="thirdSlotStart" required name="thirdSlotStart"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="thirdSlotEnd" class="form-label">Slot 3 End Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot3End" id="thirdSlotEnd" required name="thirdSlotEnd"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="fourthSlotStart" class="form-label">Slot 4 Start Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot4Start" id="fourthSlotStart" required name="fourthSlotStart"></ngb-timepicker>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-xs-6 mb-3">
+        <label for="fourthSlotEnd" class="form-label">Slot 4 End Time</label>
+        <ngb-timepicker [spinners]="false" [(ngModel)]="slot4End" id="fourthSlotEnd" required name="fourthSlotEnd"></ngb-timepicker>
+      </div>
+
+    </div>
+
+     <!-- Phone number and Sports Type -->
+     <div class="row">
+      <div class="col-md-6 col-xs-12 mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <span class="text-danger">*</span>
+        <input type="text" class="form-control" [(ngModel)]="addCourtForm.phone" #phone="ngModel" id="phone" name="phoneNumber" placeholder="123-456-7890" required>
+
+         <!-- Validation - Phone Number -->
+         <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error-message">
+          <span *ngIf="phone.errors?.['required']" class="text-danger">
+            *Phone Number is required.
+          </span>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-xs-12 mb-3">
+        <label for="sportsType" class="form-label">Sports Type</label>
+        <span class="text-danger">*</span>
+        
+        <input type="text" class="form-control" id="sportsType" name="sportsType" placeholder="Enter sport type"
+          required [(ngModel)]="addCourtForm!.sportType" #sportType="ngModel">
+
+        <!-- Validation - Name -->
+        <div *ngIf="sportType.invalid && (sportType.dirty || sportType.touched)" class="error-message">
+          <span *ngIf="sportType.errors?.['required']" class="text-danger">
+            *Sport type is required.
+          </span>
+          <span *ngIf="!sportType.errors?.['required']" class="text-danger">
+            *Please enter a valid sport type.
+          </span>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Submit button -->
+    <!-- [disabled]="courtForm.invalid" -->
+    <div class="col-12 d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary" >Add Court</button>
+    </div>
+  </form>
+</div>

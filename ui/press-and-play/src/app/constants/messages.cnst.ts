@@ -27,12 +27,18 @@ const RATING_MESSAGES = {
   ERROR : "Error occured during rating. Please try again"
 }
 
+const ADD_COURT_MESSAGES = {
+  SUCCESS : "Sporting center added successfully.",
+  ERROR : "Error while adding sporting center. Try again later."
+}
+
 export const ALL_MESSAGES = {
   REGISTER_MESSAGES,
   LOGIN_MESSAGES,
   LOGOUT_MESSAGES,
   SESSION_MESSAGES,
   BOOKING_SLOT_MESSAGES,
-  RATING_MESSAGES
+  RATING_MESSAGES,
+  ADD_COURT_MESSAGES
 }
 

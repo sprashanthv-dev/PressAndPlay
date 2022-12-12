@@ -1,9 +1,12 @@
 import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
+import { AddCourt } from "../models/add-court";
 import { CourtInfo } from "../models/court-info";
 import { LocationInfo } from "../models/location-info";
 import { RegisterForm } from "../models/register-form";
 import { Slot } from "../models/slot";
 import { SportsCatalogItem } from "../models/sports-catalog-item";
+import { HttpService } from "./http.service";
 import { UtilService } from "./util.service";
 
 @Injectable({
@@ -14,7 +17,9 @@ import { UtilService } from "./util.service";
 //* be handled by this service.
 export class DataService {
 
-  constructor(private utilSrv: UtilService) { }
+  constructor(
+    private utilSrv: UtilService,
+    private httpSrv : HttpService) { }
 
   formatCatalogItem(catalogItem: SportsCatalogItem, characterLimit: number) {
 
@@ -146,5 +151,92 @@ export class DataService {
       Name: `${firstName} ${lastName}`,
       Email: email
     }
+  }
+
+  buildAddCourtPostData(addCourtForm : AddCourt, slotsInfo : any[]) {
+
+    let formattedSlotsInfo = this.buildSlotInfoForCourt(slotsInfo);
+
+    let { name, address : incomingAddress, phone, sportType } = addCourtForm;
+    let { line1, line2, country, city, state, pincode } = incomingAddress;
+
+    let address = {
+      address_line_1 : line1,
+      address_line_2 : line2,
+      country,
+      city,
+      state,
+      pincode
+    }
+
+    return {
+      name,
+      address,
+      location : "",
+      phone,
+      availableSlots : formattedSlotsInfo,
+      sportType
+    }
+
+  }
+
+  buildSlotInfoForCourt(slotsInfo : any[]) {
+
+    let idCounter = 1;
+    let formattedSlotInfo : any[] = [];
+
+    slotsInfo.forEach(slotInfo => {
+
+      let slotObj : Slot = {
+        slot_id : idCounter.toString(),
+        time_start_hhmm : this.utilSrv.buildTime(slotInfo.start.hour),
+        time_end_hhmm : this.utilSrv.buildTime(slotInfo.end.hour),
+        booked : false
+      }
+
+      idCounter++;
+      formattedSlotInfo.push(slotObj);
+    })
+
+    return formattedSlotInfo;
+  }
+
+  async getLatLongForAddress(address : string) {
+    
+    let latLon = {
+      latitude : null,
+      longitude : null
+    }
+
+    return new Promise(async (resolve, reject) => {
+
+      let options = {
+        queryParams: {
+          text: address,
+          apiKey: environment.apiKey
+        }
+      }
+
+      let result = await this.httpSrv
+        .makeGetApiCallWithPromise(
+          "GEOCODE_ADDRESS",
+          environment.geoapifyUrl, options);
+
+      let { features } = result;
+
+      console.log('Features ', features);
+
+      if (!this.utilSrv.isNullOrUndefined(features)) {
+
+        let { properties } = features[0];
+
+        let { lat, lon } = properties;
+
+        latLon.latitude = lat;
+        latLon.longitude = lon;
+      }
+
+      resolve(latLon);
+    })
   }
 }

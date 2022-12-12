@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Subscription } from 'rxjs';
 
 import { PRESS_AND_PLAY_CONSTANTS } from 'src/app/constants/proj.cnst';
@@ -9,6 +10,7 @@ import { AppStateService } from 'src/app/services/app-state.service';
 import { HttpService } from 'src/app/services/http.service';
 import { StorageService } from 'src/app/services/storage-service';
 import { UtilService } from 'src/app/services/util.service';
+import { AddCourtComponent } from '../add-court/add-court.component';
 
 @Component({
   selector: 'app-sports-catalog',
@@ -36,6 +38,7 @@ export class SportsCatalogComponent implements OnInit, OnDestroy {
     private utilService: UtilService,
     private appStateService: AppStateService,
     private storageSrv : StorageService,
+    private modal: NgbModal,
     private httpSrv: HttpService) { }
 
   ngOnDestroy(): void {
@@ -114,6 +117,16 @@ export class SportsCatalogComponent implements OnInit, OnDestroy {
           console.log("Error ", err);
         }
       })
+  }
 
+  handleCourtAdd() {
+    const modalRef = this.modal.open(AddCourtComponent, { size: 'lg' });
+
+    modalRef.closed.subscribe((status: any) => {
+
+      if (status) {
+        this.fetchAllCatalogItems();
+      }
+    })
   }
 }
